@@ -1,0 +1,81 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id          String     @id @default(cuid())
+  name        String     // "ESCAPE_ROOM" or "CASE_FILE"
+  slots       Slot[]
+  bookings    Booking[]
+  price       Float
+  bundlePrice Float
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Slot {
+  id        String    @id @default(cuid())
+  eventId   String
+  event     Event     @relation(fields: [eventId], references: [id])
+  startTime DateTime
+  endTime   DateTime
+  capacity  Int
+  status    SlotStatus @default(AVAILABLE)
+  booking   Booking?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+}
+
+model Booking {
+  id            String        @id @default(cuid())
+  eventId       String
+  event         Event         @relation(fields: [eventId], references: [id])
+  slotId        String       @unique
+  slot          Slot         @relation(fields: [slotId], references: [id])
+  type          BookingType
+  participants  Participant[]
+  status        BookingStatus @default(PENDING)
+  paymentId     String?
+  paymentStatus PaymentStatus @default(PENDING)
+  totalAmount   Float
+  createdAt     DateTime      @default(now())
+  updatedAt     DateTime      @updatedAt
+}
+
+model Participant {
+  id        String   @id @default(cuid())
+  bookingId String
+  booking   Booking  @relation(fields: [bookingId], references: [id])
+  name      String
+  email     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum SlotStatus {
+  AVAILABLE
+  PENDING
+  UNAVAILABLE
+}
+
+enum BookingType {
+  INDIVIDUAL
+  BUNDLE
+}
+
+enum BookingStatus {
+  PENDING
+  CONFIRMED
+  CANCELLED
+}
+
+enum PaymentStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
