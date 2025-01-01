@@ -5,7 +5,7 @@ import logoGTDBlack from "@/assets/images/logo-gtd-black-transparent.png";
 import Link from "next/link";
 const Navbar = () => {
   return (
-    <div className="sticky top-0 border border-b-primary/10">
+    <div className="sticky top-0 border border-b-primary/10 z-10 bg-white">
       <Container>
         <div className="flex items-center gap-3">
           <Link href="/">
