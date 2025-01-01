@@ -2,7 +2,6 @@ export type EventType = "ESCAPE_ROOM" | "CASE_FILE";
 export type BookingType = "INDIVIDUAL" | "BUNDLE";
 
 export type Participant = {
-  id: string;
   name: string;
   email: string;
 };
