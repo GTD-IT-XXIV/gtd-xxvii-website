@@ -2,7 +2,7 @@
 import {useForm, useFieldArray} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useRouter} from "next/navigation";
-import {useBookingStore} from "@/store/bookingStore";
+import {useBookingStore} from "@/store/useBookingStore";
 import {participantSchema} from "@/lib/validations";
 import {routes} from "@/lib/navigation";
 import {z} from "zod";
