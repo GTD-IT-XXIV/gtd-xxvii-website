@@ -1,9 +1,7 @@
-export type EventType = "ESCAPE_ROOM" | "CASE_FILE";
-export type BookingType = "INDIVIDUAL" | "BUNDLE";
+import {EventType} from "@prisma/client";
 
-export type Participant = {
+export type TeamMember = {
   name: string;
-  email: string;
 };
 
 export type Slot = {
@@ -15,17 +13,15 @@ export type Slot = {
 };
 
 export type BookingState = {
-  eventType: EventType | null;
-  bookingType: BookingType | null;
-  participants: Participant[];
-  selectedSlot: Slot | null;
-  email: string | null;
-
-  // Actions
-  setEventType: (type: EventType) => void;
-  setBookingType: (type: BookingType) => void;
-  setParticipants: (participants: Participant[]) => void;
-  setSelectedSlot: (slot: Slot) => void;
-  setEmail: (email: string) => void;
-  resetBooking: () => void;
+  selectedEvent: EventType | null;
+  buyerName: string;
+  buyerEmail: string;
+  buyerTelegram: string;
+  teamMembers: TeamMember[];
+  selectedTimeSlotId: string | null;
+  setSelectedEvent: (event: EventType | null) => void;
+  setBuyerDetails: (name: string, email: string, telegram: string) => void;
+  setTeamMembers: (members: TeamMember[]) => void;
+  setSelectedTimeSlot: (timeSlotId: string | null) => void;
+  resetStore: () => void;
 };

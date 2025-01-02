@@ -1,23 +1,6 @@
 import {create} from "zustand";
-import {EventType} from "@prisma/client";
-
-type TeamMember = {
-  name: string;
-};
-
-type BookingState = {
-  selectedEvent: EventType | null;
-  buyerName: string;
-  buyerEmail: string;
-  buyerTelegram: string;
-  teamMembers: TeamMember[];
-  selectedTimeSlotId: string | null;
-  setSelectedEvent: (event: EventType | null) => void;
-  setBuyerDetails: (name: string, email: string, telegram: string) => void;
-  setTeamMembers: (members: TeamMember[]) => void;
-  setSelectedTimeSlot: (timeSlotId: string | null) => void;
-  resetStore: () => void;
-};
+import {persist} from "zustand/middleware";
+import {BookingState} from "@/types/booking";
 
 const initialState = {
   selectedEvent: null,
@@ -28,17 +11,24 @@ const initialState = {
   selectedTimeSlotId: null,
 };
 
-export const useBookingStore = create<BookingState>((set) => ({
-  ...initialState,
+export const useBookingStore = create<BookingState>()(
+  persist(
+    (set) => ({
+      ...initialState,
 
-  setSelectedEvent: (event) => set({selectedEvent: event}),
+      setSelectedEvent: (event) => set({selectedEvent: event}),
 
-  setBuyerDetails: (name, email, telegram) =>
-    set({buyerName: name, buyerEmail: email, buyerTelegram: telegram}),
+      setBuyerDetails: (name, email, telegram) =>
+        set({buyerName: name, buyerEmail: email, buyerTelegram: telegram}),
 
-  setTeamMembers: (members) => set({teamMembers: members}),
+      setTeamMembers: (members) => set({teamMembers: members}),
 
-  setSelectedTimeSlot: (timeSlotId) => set({selectedTimeSlotId: timeSlotId}),
+      setSelectedTimeSlot: (timeSlotId) => set({selectedTimeSlotId: timeSlotId}),
 
-  resetStore: () => set(initialState),
-}));
+      resetStore: () => set(initialState),
+    }),
+    {
+      name: "booking-storage",
+    },
+  ),
+);
