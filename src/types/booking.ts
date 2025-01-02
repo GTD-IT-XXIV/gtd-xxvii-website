@@ -4,14 +4,6 @@ export type TeamMember = {
   name: string;
 };
 
-export type Slot = {
-  id: string;
-  startTime: Date;
-  endTime: Date;
-  capacity: number;
-  status: "AVAILABLE" | "PENDING" | "UNAVAILABLE";
-};
-
 export type BookingState = {
   selectedEvent: EventType | null;
   buyerName: string;
