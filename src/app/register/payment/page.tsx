@@ -48,7 +48,7 @@ export default function PaymentPage() {
       const {error: stripeError} = await stripe.confirmPayment({
         clientSecret: paymentIntent.client_secret!,
         confirmParams: {
-          return_url: `${window.location.origin}/register/payment-status`,
+          return_url: `${window.location.origin}/register/complete`,
         },
       });
 
