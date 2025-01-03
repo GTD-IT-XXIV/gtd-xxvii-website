@@ -41,7 +41,7 @@ export default function BookingDetailsPage() {
   const onSubmit = (data: BookingFormData) => {
     setBuyerDetails(data.buyerName, data.buyerEmail, data.buyerTelegram);
     setTeamMembers(data.teamMembers);
-    router.push("/register/booking-timeslots");
+    router.push("/register/timeslot");
   };
 
   return (

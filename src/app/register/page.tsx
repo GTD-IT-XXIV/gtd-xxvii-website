@@ -16,7 +16,7 @@ export default function RegistrationPage() {
 
   const handleNext = () => {
     if (selectedEvent) {
-      router.push("/register/booking-details");
+      router.push("/register/details");
     }
   };
 

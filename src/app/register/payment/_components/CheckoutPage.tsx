@@ -49,7 +49,7 @@ const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) 
       elements,
       clientSecret,
       confirmParams: {
-        return_url: `${window.location.origin}/register/complete`,
+        return_url: `${window.location.origin}/register/payment/complete`,
       },
     });
 
