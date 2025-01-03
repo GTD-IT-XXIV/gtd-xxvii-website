@@ -9,6 +9,8 @@ const initialState = {
   buyerTelegram: "",
   teamMembers: Array(4).fill({name: ""}),
   selectedTimeSlotId: null,
+  price: 0,
+  booking: null,
 };
 
 export const useBookingStore = create<BookingState>()(
@@ -24,6 +26,10 @@ export const useBookingStore = create<BookingState>()(
       setTeamMembers: (members) => set({teamMembers: members}),
 
       setSelectedTimeSlot: (timeSlotId) => set({selectedTimeSlotId: timeSlotId}),
+
+      setPrice: (price) => set({price}),
+
+      setBooking: (booking) => set({booking}),
 
       resetStore: () => set(initialState),
     }),

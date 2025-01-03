@@ -42,7 +42,7 @@ export default function BookingSlotPage() {
 
   const handleNext = () => {
     if (selectedSlot) {
-      router.push("/register/payment");
+      router.push("/register/summary");
     }
   };
 
