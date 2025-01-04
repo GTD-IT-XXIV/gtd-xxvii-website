@@ -50,7 +50,7 @@ model Booking {
   buyerTelegram   String
   teamMembers     String[]
   totalAmount     Float
-  paymentIntent   String?   @unique
+  stripeSessionId String?   @unique
   paymentStatus   String    @default("pending")
   createdAt       DateTime  @default(now())
   updatedAt       DateTime  @updatedAt
