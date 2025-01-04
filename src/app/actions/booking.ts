@@ -68,25 +68,6 @@ export async function createBooking(data: {
   });
 }
 
-// export async function createPaymentIntent(bookingId: string, amount: number) {
-//   try {
-//     const paymentIntent = await stripe.paymentIntents.create({
-//       amount: amount * 100, // Convert to cents, refer to stripe docs
-//       currency: "sgd",
-//       metadata: {bookingId},
-//     });
-
-//     await prisma.booking.update({
-//       where: {id: bookingId},
-//       data: {paymentIntent: paymentIntent.id},
-//     });
-//     return paymentIntent.client_secret;
-//   } catch (error) {
-//     console.error("Error creating payment intent:", error);
-//     throw new Error("Failed to create payment intent");
-//   }
-// }
-
 export async function createCheckoutSession(bookingId: string, amount: number) {
   try {
     const booking = await prisma.booking.findUnique({

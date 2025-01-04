@@ -39,9 +39,9 @@ export default function PaymentStatusPage() {
           setPaymentStatus("processing");
           setMessage("Your payment is being processed...");
         }
-      } catch (error) {
+      } catch {
         setPaymentStatus("error");
-        setMessage("Something went wrong. Please contact support.");
+        setMessage("Something went wrong.");
       }
     };
 
