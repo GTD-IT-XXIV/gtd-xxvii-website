@@ -134,3 +134,13 @@ export async function createCheckoutSession(bookingId: string, amount: number) {
     throw new Error("Failed to create checkout session");
   }
 }
+
+export async function getPaymentStatus(sessionId: string) {
+  try {
+    const session = await stripe.checkout.sessions.retrieve(sessionId);
+    return {status: session.status};
+  } catch (error) {
+    console.error("Error getting payment status:", error);
+    throw new Error("Failed to get payment status");
+  }
+}
