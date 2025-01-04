@@ -1,71 +1,34 @@
 "use client";
 
-import {useEffect, useState} from "react";
-import {useStripe, useElements, PaymentElement} from "@stripe/react-stripe-js";
-import {createPaymentIntent} from "@/app/actions/booking";
-import {Button} from "@/components/ui/button";
+import {useState, useEffect} from "react";
+import {createCheckoutSession} from "@/app/actions/booking";
+import {EmbeddedCheckoutProvider, EmbeddedCheckout} from "@stripe/react-stripe-js";
+import {loadStripe} from "@stripe/stripe-js";
+if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
+  throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
+}
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
 const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) => {
-  const stripe = useStripe();
-  const elements = useElements();
-  const [loading, setLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [clientSecret, setClientSecret] = useState("");
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
   useEffect(() => {
-    const fetchPaymentIntent = async () => {
+    const fetchStripeSession = async () => {
       try {
-        const clientSecret = await createPaymentIntent(bookingId, amount);
+        const {clientSecret} = await createCheckoutSession(bookingId, amount);
         if (clientSecret) {
           setClientSecret(clientSecret);
         }
       } catch (error) {
-        console.error("Error fetching payment intent:", error);
-        setErrorMessage("Failed to fetch payment intent");
+        console.error("Error fetching stripe session:", error);
+        setErrorMessage("Failed to fetch stripe session");
       }
     };
-
-    fetchPaymentIntent();
+    fetchStripeSession();
   }, [amount, bookingId]);
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    setLoading(true);
-    setErrorMessage(null);
-
-    if (!stripe || !elements) {
-      return;
-    }
-
-    const {error: submitError} = await elements.submit();
-
-    if (submitError) {
-      setErrorMessage(submitError.message ?? "An error occurred");
-      setLoading(false);
-      return;
-    }
-
-    const {error} = await stripe.confirmPayment({
-      elements,
-      clientSecret,
-      confirmParams: {
-        return_url: `${window.location.origin}/register/payment/complete`,
-      },
-    });
-
-    if (error) {
-      // This point is only reached if there's an immediate error when
-      // confirming the payment. Show the error to your customer (for example, payment details incomplete)
-      setErrorMessage(error.message ?? "An error occurred");
-    } else {
-      // The payment UI automatically closes with a success animation.
-      // Your customer is redirected to your `return_url`.
-    }
-
-    setLoading(false);
-  };
-
-  if (!clientSecret || !stripe || !elements) {
+  if (!clientSecret) {
     return (
       <div className="flex items-center justify-center">
         <div
@@ -79,16 +42,14 @@ const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) 
       </div>
     );
   }
+
   return (
-    <form onSubmit={handleSubmit}>
-      {clientSecret && <PaymentElement />}
-      {errorMessage && <div>{errorMessage}</div>}
-      <div className="flex justify-end space-x-4 mt-4">
-        <Button disabled={!stripe || loading}>
-          {loading ? "Processing..." : `Pay ${amount} SGD`}
-        </Button>
-      </div>
-    </form>
+    <div className="w-full">
+      {errorMessage && <div className="text-red-500 mb-4">{errorMessage}</div>}
+      <EmbeddedCheckoutProvider stripe={stripePromise} options={{clientSecret}}>
+        <EmbeddedCheckout />
+      </EmbeddedCheckoutProvider>
+    </div>
   );
 };
 
