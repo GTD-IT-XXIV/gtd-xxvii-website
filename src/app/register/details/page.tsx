@@ -25,7 +25,8 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 
 export default function BookingDetailsPage() {
   const router = useRouter();
-  const {setBuyerDetails, setTeamMembers} = useBookingStore();
+  const {buyerName, buyerEmail, buyerTelegram, teamMembers, setBuyerDetails, setTeamMembers} =
+    useBookingStore();
 
   const {
     register,
@@ -34,7 +35,12 @@ export default function BookingDetailsPage() {
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
-      teamMembers: Array(4).fill({name: ""}),
+      buyerName: buyerName || "",
+      buyerEmail: buyerEmail || "",
+      buyerTelegram: buyerTelegram || "",
+      teamMembers: teamMembers.length
+        ? teamMembers.map((member) => ({name: member.name}))
+        : Array(4).fill({name: ""}),
     },
   });
 
