@@ -1,11 +1,11 @@
-import {Html, Head, Body, Container, Section, Text, Hr, Link} from "@react-email/components";
+import {Html, Head, Body, Container, Section, Text, Hr} from "@react-email/components";
 import {format} from "date-fns";
 
-interface Participant {
+type Participant = {
   name: string;
-}
+};
 
-interface EventConfirmationEmailProps {
+type EventConfirmationEmailProps = {
   eventName: "ESCAPE_ROOM" | "CASE_FILE";
   bookingId: string;
   buyerName: string;
@@ -15,7 +15,7 @@ interface EventConfirmationEmailProps {
   timeSlot: Date;
   price: number;
   isEarlyBird: boolean;
-}
+};
 
 export const EventConfirmationEmail = ({
   eventName,
