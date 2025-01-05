@@ -61,6 +61,12 @@ export default function SummaryPage() {
               <p>Telegram Leader: {store.buyerTelegram}</p>
               <p>Team Members: {store.teamMembers.map((m) => m.name).join(", ")}</p>
             </div>
+            <div>
+              <p className="text-red-600">
+                Make sure that the details are correct. You can not go back after proceeding to
+                payment
+              </p>
+            </div>
 
             {error && <div className="bg-red-50 text-red-500 p-4 rounded">{error}</div>}
 
