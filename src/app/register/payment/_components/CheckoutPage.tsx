@@ -1,6 +1,7 @@
 "use client";
 
 import {useState, useEffect} from "react";
+import {useRouter} from "next/router";
 import {createCheckoutSession} from "@/app/actions/booking";
 import {EmbeddedCheckoutProvider, EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
@@ -12,13 +13,26 @@ const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
 const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) => {
   const [clientSecret, setClientSecret] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [stripeSessionId, setStripeSessionId] = useState("");
+  const router = useRouter();
 
   useEffect(() => {
     const fetchStripeSession = async () => {
       try {
-        const {clientSecret} = await createCheckoutSession(bookingId, amount);
-        if (clientSecret) {
+        const {clientSecret, sessionId} = await createCheckoutSession(bookingId, amount);
+        if (clientSecret && sessionId) {
           setClientSecret(clientSecret);
+          setStripeSessionId(sessionId);
+
+          // Set a timer for 30 minutes (matching the session expiry) to redirect to the status page
+          // stripe.checkout.sessions will always redirect to this component after the session expires
+          setTimeout(
+            () => {
+              const returnUrl = `${process.env.NEXT_PUBLIC_BASE_URL}/register/payment/status?session_id=${stripeSessionId}`;
+              router.push(returnUrl);
+            },
+            30 * 60 * 1000,
+          );
         }
       } catch (error) {
         console.error("Error fetching stripe session:", error);
@@ -26,7 +40,7 @@ const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) 
       }
     };
     fetchStripeSession();
-  }, [amount, bookingId]);
+  }, [amount, bookingId, router]);
 
   if (!clientSecret) {
     return (
