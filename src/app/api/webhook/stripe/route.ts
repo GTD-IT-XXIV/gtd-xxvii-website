@@ -87,28 +87,74 @@ export async function POST(req: Request) {
 
         break;
       }
-
+      // This will always be triggered when the session is expired regardless of the payment status
       case "checkout.session.expired": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const {timeSlotId} = session.metadata as {timeSlotId: string};
-        const booking = await prisma.booking.findUnique({where: {stripeSessionId: session.id}});
+        const metadata = session.metadata || {};
+        const timeSlotId = metadata.timeSlotId;
 
-        if (booking?.paymentStatus !== "completed") {
-          // Reset timeslot status
-          await prisma.timeSlot.update({
-            where: {id: timeSlotId},
-            data: {status: BookingStatus.AVAILABLE},
+        if (!timeSlotId) {
+          console.error("No timeSlotId found in session metadata");
+          return NextResponse.json(
+            {error: "Missing timeSlotId in session metadata"},
+            {status: 400},
+          );
+        }
+        try {
+          // Check if this session had a successful payment
+          const existingSession = await stripe.checkout.sessions.retrieve(session.id);
+          if (existingSession.payment_status === "paid") {
+            // If payment was successful, don't change anything
+            console.log("Session expired but payment was successful, maintaining current status");
+            return NextResponse.json({
+              received: true,
+              message: "Session expired but payment was successful",
+            });
+          }
+
+          // Get the booking
+          const booking = await prisma.booking.findUnique({
+            where: {stripeSessionId: session.id},
+            include: {
+              timeSlot: true,
+            },
           });
 
-          // Update booking status
-          await prisma.booking.update({
-            where: {
-              stripeSessionId: session.id,
-            },
-            data: {
-              paymentStatus: "cancelled",
-            },
+          // Only proceed with status changes if:
+          // 1. Booking exists
+          // 2. Payment status is not completed
+          // 3. TimeSlot status is not already taken by another booking
+          if (
+            booking &&
+            booking.paymentStatus !== "completed" &&
+            booking.timeSlot.status !== BookingStatus.UNAVAILABLE
+          ) {
+            // Reset timeslot status
+            await prisma.timeSlot.update({
+              where: {id: timeSlotId},
+              data: {status: BookingStatus.AVAILABLE},
+            });
+
+            // Update booking status
+            await prisma.booking.update({
+              where: {
+                stripeSessionId: session.id,
+              },
+              data: {
+                paymentStatus: "cancelled",
+              },
+            });
+
+            console.log("Successfully reset unpaid expired session");
+          }
+
+          return NextResponse.json({
+            received: true,
+            message: "Expired session handled successfully",
           });
+        } catch (error) {
+          console.error("Error handling expired session:", error);
+          return NextResponse.json({error: "Error handling expired session"}, {status: 500});
         }
         break;
       }
