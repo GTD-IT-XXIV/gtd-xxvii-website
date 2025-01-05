@@ -91,23 +91,25 @@ export async function POST(req: Request) {
       case "checkout.session.expired": {
         const session = event.data.object as Stripe.Checkout.Session;
         const {timeSlotId} = session.metadata as {timeSlotId: string};
+        const booking = await prisma.booking.findUnique({where: {stripeSessionId: session.id}});
 
-        // Reset timeslot status
-        await prisma.timeSlot.update({
-          where: {id: timeSlotId},
-          data: {status: BookingStatus.AVAILABLE},
-        });
+        if (booking?.paymentStatus !== "completed") {
+          // Reset timeslot status
+          await prisma.timeSlot.update({
+            where: {id: timeSlotId},
+            data: {status: BookingStatus.AVAILABLE},
+          });
 
-        // Update booking status
-        await prisma.booking.update({
-          where: {
-            stripeSessionId: session.id,
-          },
-          data: {
-            paymentStatus: "cancelled",
-          },
-        });
-
+          // Update booking status
+          await prisma.booking.update({
+            where: {
+              stripeSessionId: session.id,
+            },
+            data: {
+              paymentStatus: "cancelled",
+            },
+          });
+        }
         break;
       }
     }
