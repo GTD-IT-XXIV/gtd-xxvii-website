@@ -44,6 +44,12 @@ corepack enable pnpm
 
 4. Install Docker. Installation: [macOS](https://docs.docker.com/desktop/install/mac-install/), [Linux](https://docs.docker.com/desktop/install/linux-install/), [Windows](https://docs.docker.com/desktop/install/windows-install/).
 
+5. Create stripe account to get the API keys and webhook secret key
+
+6. Install stripe cli and login to cli, refer to [this](https://docs.stripe.com/stripe-cli) docs
+
+7. Create resend account [here](https://resend.com/) and get the API key
+
 ### Setting Up
 
 1. Install dependencies:
@@ -56,27 +62,51 @@ pnpm install
 
 ```bash
 # For macOS/Linux
-cp .env.example .env.development.local
+cp .env.example .env
 ```
 
 ```pwsh
 # For Windows
-copy .env.example .env.development.local
+copy .env.example .env
 ```
 
 3. Start the development database:
 
 ```bash
-docker compose up
+docker-compose up -d
 ```
 
-4. Run the development server:
+4. Generate prisma client:
+
+```bash
+pnpx prisma generate
+```
+
+5. Find the latest migration in prisma/migrations folder and run migrations script:
+
+```bash
+pnpx prisma migrate dev --name change_this_name_to_the_latest_migration
+```
+
+6. Seed the development database:
+
+```bash
+pnpm run seed
+```
+
+6. Connect the stripe webhook:
+
+```bash
+stripe listen --forward-to localhost:3000/api/webhook/stripe
+```
+
+7. Run the development server:
 
 ```bash
 pnpm dev
 ```
 
-5. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+8. Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
 ### Additional Tools
 
@@ -146,12 +176,16 @@ rm -rf .next
 
 ### Database errors
 
-1. Reset the development database by first removing the image
+1. Reset the development database by first removing the image:
+
+```bash
+docker-compose down -v
+```
 
 2. Restart the development database:
 
 ```bash
-docker compose up
+docker-compose up -d
 ```
 
 ### Save storage space
