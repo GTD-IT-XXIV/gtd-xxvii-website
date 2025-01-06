@@ -35,6 +35,7 @@ export default function PaymentStatusPage() {
         } else if (status === "expired") {
           setPaymentStatus("error");
           setMessage("Your payment session has expired. Please try again.");
+          reset(); // Clear the booking store
         } else {
           setPaymentStatus("processing");
           setMessage("Your payment is being processed...");
@@ -55,6 +56,7 @@ export default function PaymentStatusPage() {
           {paymentStatus === "success" && (
             <>
               <h1 className="text-3xl font-bold text-green-600 mb-4">Payment Successful!</h1>
+              <p className="text-gray-600 mb-6">{message}</p>
               <Button asChild>
                 <Link href="/">Return Home</Link>
               </Button>
@@ -77,7 +79,7 @@ export default function PaymentStatusPage() {
                   <Link href="/">Return Home</Link>
                 </Button>
                 <Button asChild>
-                  <a href="/register">Try Again</a>
+                  <Link href="/register">Try Again</Link>
                 </Button>
               </div>
             </>

@@ -1,6 +1,5 @@
 "use server";
 
-import {revalidatePath} from "next/cache";
 import prisma from "@/lib/db";
 import {EventType, BookingStatus} from "@prisma/client";
 import Stripe from "stripe";
