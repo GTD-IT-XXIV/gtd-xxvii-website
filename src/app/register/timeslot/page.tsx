@@ -14,6 +14,17 @@ export default function BookingSlotPage() {
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [selectedDay, setSelectedDay] = useState<string>("All");
+  const days = [
+    "All",
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday",
+  ];
 
   useEffect(() => {
     if (!selectedEvent) {
@@ -46,6 +57,16 @@ export default function BookingSlotPage() {
     }
   };
 
+  const filterTimeSlots = (slots: TimeSlot[]) => {
+    if (selectedDay === "All") return slots;
+
+    return slots.filter((slot) => {
+      const date = new Date(slot.startTime);
+      const day = new Intl.DateTimeFormat("en-US", {weekday: "long"}).format(date);
+      return day === selectedDay;
+    });
+  };
+
   if (loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
@@ -54,18 +75,37 @@ export default function BookingSlotPage() {
     );
   }
 
+  const filteredTimeSlots = filterTimeSlots(timeSlots);
+
   return (
     <div className="container mx-auto px-4 py-8">
       <Card className="max-w-2xl mx-auto">
         <CardHeader>
-          <CardTitle>Select Time Slot</CardTitle>
+          <CardTitle className="mb-2">Select Time Slot</CardTitle>
+          <div className="relative w-full">
+            <div className="overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent">
+              <div className="flex gap-2">
+                {days.map((day) => (
+                  <Button
+                    key={day}
+                    variant={selectedDay === day ? "default" : "outline"}
+                    size="sm"
+                    onClick={() => setSelectedDay(day)}
+                    className="min-w-[80px]"
+                  >
+                    {day}
+                  </Button>
+                ))}
+              </div>
+            </div>
+          </div>
         </CardHeader>
         <CardContent>
-          {timeSlots.length === 0 ? (
+          {filteredTimeSlots.length === 0 ? (
             <p className="text-center text-gray-500 py-8">No available time slots found.</p>
           ) : (
             <div className="grid gap-4">
-              {timeSlots.map((slot) => (
+              {filteredTimeSlots.map((slot) => (
                 <div
                   key={slot.id}
                   className={`p-4 border rounded cursor-pointer transition-colors ${
