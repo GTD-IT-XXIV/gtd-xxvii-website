@@ -11,7 +11,8 @@
   },
   "dependencies": {
     "@hookform/resolvers": "^3.9.1",
-    "@prisma/client": "^6.1.0",
+    "@prisma/client": "^6.2.1",
+    "@radix-ui/react-accordion": "^1.2.2",
     "@radix-ui/react-slot": "^1.1.1",
     "@react-email/components": "^0.0.31",
     "@react-email/tailwind": "^1.0.4",
@@ -51,7 +52,7 @@
     "lint-staged": "^15.2.11",
     "postcss": "^8",
     "prettier": "^3.4.2",
-    "prisma": "^6.1.0",
+    "prisma": "^6.2.1",
     "tailwindcss": "^3.4.1",
     "typescript": "^5"
   },
@@ -65,5 +66,6 @@
       "eslint --fix",
       "prettier --write"
     ]
-  }
+  },
+  "packageManager": "pnpm@9.15.3+sha512.1f79bc245a66eb0b07c5d4d83131240774642caaa86ef7d0434ab47c0d16f66b04e21e0c086eb61e62c77efc4d7f7ec071afad3796af64892fae66509173893a"
 }
