@@ -55,6 +55,18 @@
     --chart-4: 280 65% 60%;
     --chart-5: 340 75% 55%;
   }
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+  }
+
+  .scrollbar-track-transparent::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .scrollbar-thumb-transparent::-webkit-scrollbar-thumb {
+    background: transparent;
+  }
 }
 @layer base {
   * {
