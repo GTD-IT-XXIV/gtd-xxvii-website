@@ -9,6 +9,8 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2024-12-
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
+  console.log("Received webhook event");
+  console.log(req);
   const body = await req.text();
   const signature = (await headers()).get("stripe-signature")!;
 

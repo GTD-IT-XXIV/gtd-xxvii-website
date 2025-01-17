@@ -1,6 +1,4 @@
 import {NextRequest, NextResponse} from "next/server";
-import {generateTokens} from "@/app/actions/generate-token";
-import redis from "@/lib/redis";
 
 // !! IMPORTANT: Fill in the production domain
 const allowedOrigins = [
@@ -10,30 +8,11 @@ const allowedOrigins = [
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const origin = req.headers.get("origin");
-  const sessionToken = req.cookies.get("session_token")?.value;
 
   // Check if origin is allowed
   if (origin && !allowedOrigins.includes(origin)) {
     console.log("origin not allowed");
     return new NextResponse("Not allowed", {status: 403});
-  }
-
-  // Check if session token exists in cookies
-  if (!sessionToken) {
-    console.log("session token not found, creating new session");
-    await generateTokens();
-    const url = req.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
-  }
-
-  // Check if session token exists in Redis
-  const csrfToken = await redis.get(sessionToken);
-  if (!csrfToken) {
-    console.log("session data not found");
-    const url = req.nextUrl.clone();
-    url.pathname = "/";
-    return NextResponse.redirect(url);
   }
 
   const response = NextResponse.next();

@@ -5,6 +5,7 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {EventType} from "@prisma/client";
+import {generateTokens} from "@/app/actions/generate-token";
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -15,6 +16,27 @@ export default function RegistrationPage() {
   };
 
   const handleNext = () => {
+    const generate = async () => {
+      await generateTokens();
+    };
+
+    const parseCookie = () => {
+      const cookie = document.cookie;
+      return cookie.split(";").reduce((acc: Record<string, string>, cookie) => {
+        const [key, value] = cookie.split("=");
+        acc[key.trim()] = decodeURIComponent(value);
+        return acc;
+      }, {});
+    };
+
+    // !! BUGS: Session token resets every time page is refreshed
+    const parsedCookie = parseCookie();
+    if (!parsedCookie) generate();
+    else {
+      const sessionToken = parsedCookie["session_token"];
+      if (!sessionToken) generate();
+    }
+
     if (selectedEvent) {
       router.push("/register/details");
     }
