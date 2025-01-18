@@ -9,7 +9,7 @@ if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
 }
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
 
-const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: string}) => {
+const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: number}) => {
   const [clientSecret, setClientSecret] = useState("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 

@@ -5,9 +5,9 @@ import {EventConfirmationEmail} from "@/emails/eventConfirmationEmail";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-interface SendEmailParams {
+type SendEmailParams = {
   eventName: "ESCAPE_ROOM" | "CASE_FILE";
-  bookingId: string;
+  bookingId: number;
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
@@ -16,7 +16,7 @@ interface SendEmailParams {
   timeSlot: Date;
   price: number;
   isEarlyBird: boolean;
-}
+};
 
 export async function sendConfirmationEmail({
   eventName,

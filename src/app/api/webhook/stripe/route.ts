@@ -8,6 +8,11 @@ import {sendConfirmationEmail} from "@/app/actions/sendConfirmationEmail";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2024-12-18.acacia"});
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
+type SessionMetadata = {
+  bookingId: string;
+  timeSlotId: string;
+};
+
 export async function POST(req: Request) {
   console.log("Received webhook event");
   console.log(req);
@@ -20,7 +25,17 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
-        const {bookingId, timeSlotId} = session.metadata as {bookingId: string; timeSlotId: string};
+        if (!session.metadata?.bookingId || !session.metadata?.timeSlotId) {
+          throw new Error("Missing required metadata");
+        }
+
+        // Parse string IDs to numbers
+        const bookingId = parseInt(session.metadata.bookingId, 10);
+        const timeSlotId = parseInt(session.metadata.timeSlotId, 10);
+
+        if (isNaN(bookingId) || isNaN(timeSlotId)) {
+          throw new Error("Invalid booking or timeSlot ID");
+        }
 
         // Get timeslot
         const timeSlot = await prisma.timeSlot.findUnique({
@@ -94,12 +109,14 @@ export async function POST(req: Request) {
       case "checkout.session.expired": {
         const session = event.data.object as Stripe.Checkout.Session;
         const metadata = session.metadata || {};
-        const timeSlotId = metadata.timeSlotId;
 
-        if (!timeSlotId) {
-          console.error("No timeSlotId found in session metadata");
+        // Parse timeSlotId as number
+        const timeSlotId = metadata.timeSlotId ? parseInt(metadata.timeSlotId, 10) : null;
+
+        if (!timeSlotId || isNaN(timeSlotId)) {
+          console.error("No valid timeSlotId found in session metadata");
           return NextResponse.json(
-            {error: "Missing timeSlotId in session metadata"},
+            {error: "Missing or invalid timeSlotId in session metadata"},
             {status: 400},
           );
         }
