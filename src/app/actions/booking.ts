@@ -139,3 +139,16 @@ export async function getPaymentStatus(sessionId: string) {
     throw new Error("Failed to get payment status");
   }
 }
+
+export async function validateTeamName(teamName: string) {
+  const existingBooking = await prisma.booking.findFirst({
+    where: {
+      teamName: {
+        equals: teamName,
+        mode: "insensitive", // Case-insensitive comparison
+      },
+    },
+  });
+
+  return !existingBooking;
+}

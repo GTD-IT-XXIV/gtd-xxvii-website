@@ -8,12 +8,16 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {useEffect, useState} from "react";
+import {validateTeamName} from "@/app/actions/booking";
 
 const bookingSchema = z.object({
   buyerName: z.string().min(1, "Leader's name is required"),
   buyerEmail: z.string().email("Invalid email address"),
   buyerTelegram: z.string().min(1, "Telegram handle is required"),
-  teamName: z.string().min(1, "Team name is required"),
+  teamName: z
+    .string()
+    .min(1, "Team name is required")
+    .refine(async (name) => validateTeamName(name), "This team name is already taken"),
   teamMembers: z
     .array(
       z.object({
@@ -28,6 +32,7 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 export default function BookingDetailsPage() {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
+  const [isValidating, setIsValidating] = useState(false);
 
   const {
     selectedEvent,
@@ -56,7 +61,8 @@ export default function BookingDetailsPage() {
     register,
     handleSubmit,
     reset,
-    formState: {errors},
+    formState: {errors, isSubmitting},
+    trigger,
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
@@ -84,11 +90,31 @@ export default function BookingDetailsPage() {
     }
   }, [isHydrated, buyerName, buyerEmail, buyerTelegram, teamName, teamMembers, reset]);
 
-  const onSubmit = (data: BookingFormData) => {
-    setBuyerDetails(data.buyerName, data.buyerEmail, data.buyerTelegram);
-    setTeamName(data.teamName);
-    setTeamMembers(data.teamMembers);
-    router.push("/register/timeslot");
+  const onSubmit = async (data: BookingFormData) => {
+    setIsValidating(true);
+    try {
+      // Validate team name one final time before proceeding
+      const isValid = await validateTeamName(data.teamName);
+      if (!isValid) {
+        setIsValidating(false);
+        return;
+      }
+
+      setBuyerDetails(data.buyerName, data.buyerEmail, data.buyerTelegram);
+      setTeamName(data.teamName);
+      setTeamMembers(data.teamMembers);
+      router.push("/register/timeslot");
+    } finally {
+      setIsValidating(false);
+    }
+  };
+
+  // Add debounced team name validation
+  const handleTeamNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    if (value) {
+      await trigger("teamName");
+    }
   };
 
   if (!isHydrated) {
@@ -138,7 +164,14 @@ export default function BookingDetailsPage() {
 
               <div>
                 <label className="block text-sm font-medium mb-1">Team Name</label>
-                <input {...register("teamName")} className="w-full p-2 border rounded" />
+                <input
+                  {...register("teamName")}
+                  className="w-full p-2 border rounded"
+                  onChange={(e) => {
+                    register("teamName").onChange(e);
+                    handleTeamNameChange(e);
+                  }}
+                />
                 {errors.teamName && (
                   <p className="text-red-500 text-sm mt-1">{errors.teamName.message}</p>
                 )}
@@ -169,7 +202,9 @@ export default function BookingDetailsPage() {
               <Button type="button" variant="outline" onClick={() => router.back()}>
                 Back
               </Button>
-              <Button type="submit">Next</Button>
+              <Button type="submit" disabled={isSubmitting || isValidating}>
+                {isSubmitting || isValidating ? "Validating..." : "Next"}
+              </Button>
             </div>
           </form>
         </CardContent>
