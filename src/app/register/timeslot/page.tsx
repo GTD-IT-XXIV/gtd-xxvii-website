@@ -10,10 +10,11 @@ import type {TimeSlot} from "@prisma/client";
 
 export default function BookingSlotPage() {
   const router = useRouter();
-  const {selectedEvent, setSelectedTimeSlot} = useBookingStore();
+  const [isHydrated, setIsHydrated] = useState(false);
+  const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot} = useBookingStore();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(null);
+  const [selectedSlot, setSelectedSlot] = useState<string | null>(selectedTimeSlotId);
   const [selectedDay, setSelectedDay] = useState<string>("All");
   const days = [
     "All",
@@ -27,6 +28,12 @@ export default function BookingSlotPage() {
   ];
 
   useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
     if (!selectedEvent) {
       router.push("/register");
       return;
@@ -44,7 +51,14 @@ export default function BookingSlotPage() {
     };
 
     fetchTimeSlots();
-  }, [selectedEvent, router]);
+  }, [isHydrated, selectedEvent, router]);
+
+  // Sync selected slot with store, it will always reflect the latest selected slot
+  useEffect(() => {
+    if (isHydrated && selectedTimeSlotId) {
+      setSelectedSlot(selectedTimeSlotId);
+    }
+  }, [isHydrated, selectedTimeSlotId]);
 
   const handleTimeSlotSelection = (slotId: string) => {
     setSelectedSlot(slotId);
@@ -52,7 +66,7 @@ export default function BookingSlotPage() {
   };
 
   const handleNext = () => {
-    if (selectedSlot) {
+    if (selectedSlot && selectedTimeSlotId) {
       router.push("/register/summary");
     }
   };
@@ -67,7 +81,7 @@ export default function BookingSlotPage() {
     });
   };
 
-  if (loading) {
+  if (!isHydrated || loading) {
     return (
       <div className="flex justify-center items-center min-h-screen">
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
