@@ -27,12 +27,21 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 export default function BookingDetailsPage() {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
+  const {selectedEvent} = useBookingStore();
+
   const {buyerName, buyerEmail, buyerTelegram, teamMembers, setBuyerDetails, setTeamMembers} =
     useBookingStore();
 
   useEffect(() => {
     setIsHydrated(true);
   }, []);
+
+  useEffect(() => {
+    if (isHydrated && !selectedEvent) {
+      router.push("/register");
+      return;
+    }
+  }, [isHydrated, selectedEvent, router]);
 
   const {
     register,
