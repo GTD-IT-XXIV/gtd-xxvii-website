@@ -7,6 +7,7 @@ import {z} from "zod";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
+import {useEffect, useState} from "react";
 
 const bookingSchema = z.object({
   buyerName: z.string().min(1, "Leader's name is required"),
@@ -25,12 +26,18 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 
 export default function BookingDetailsPage() {
   const router = useRouter();
+  const [isHydrated, setIsHydrated] = useState(false);
   const {buyerName, buyerEmail, buyerTelegram, teamMembers, setBuyerDetails, setTeamMembers} =
     useBookingStore();
+
+  useEffect(() => {
+    setIsHydrated(true);
+  }, []);
 
   const {
     register,
     handleSubmit,
+    reset,
     formState: {errors},
   } = useForm<BookingFormData>({
     resolver: zodResolver(bookingSchema),
@@ -44,11 +51,32 @@ export default function BookingDetailsPage() {
     },
   });
 
+  useEffect(() => {
+    if (isHydrated) {
+      reset({
+        buyerName: buyerName || "",
+        buyerEmail: buyerEmail || "",
+        buyerTelegram: buyerTelegram || "",
+        teamMembers: teamMembers.length
+          ? teamMembers.map((member) => ({name: member.name}))
+          : Array(4).fill({name: ""}),
+      });
+    }
+  }, [isHydrated, buyerName, buyerEmail, buyerTelegram, teamMembers, reset]);
+
   const onSubmit = (data: BookingFormData) => {
     setBuyerDetails(data.buyerName, data.buyerEmail, data.buyerTelegram);
     setTeamMembers(data.teamMembers);
     router.push("/register/timeslot");
   };
+
+  if (!isHydrated) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
