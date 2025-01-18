@@ -37,6 +37,7 @@ export default function SummaryPage() {
         buyerName: store.buyerName,
         buyerEmail: store.buyerEmail,
         buyerTelegram: store.buyerTelegram,
+        teamName: store.teamName,
         teamMembers: store.teamMembers,
       });
 
@@ -73,6 +74,7 @@ export default function SummaryPage() {
               <p>Leader: {store.buyerName}</p>
               <p>Email Leader: {store.buyerEmail}</p>
               <p>Telegram Leader: {store.buyerTelegram}</p>
+              <p>Team Name: {store.teamName}</p>
               <p>Team Members: {store.teamMembers.map((m) => m.name).join(", ")}</p>
             </div>
             <div>

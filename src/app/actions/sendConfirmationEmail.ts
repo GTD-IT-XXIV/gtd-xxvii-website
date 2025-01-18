@@ -11,6 +11,7 @@ interface SendEmailParams {
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
+  teamName: string;
   participants: {name: string}[];
   timeSlot: Date;
   price: number;
@@ -23,6 +24,7 @@ export async function sendConfirmationEmail({
   buyerName,
   buyerEmail,
   buyerTelegram,
+  teamName,
   participants,
   timeSlot,
   price,
@@ -39,6 +41,7 @@ export async function sendConfirmationEmail({
         buyerName,
         buyerEmail,
         buyerTelegram,
+        teamName,
         participants,
         timeSlot,
         price,

@@ -1,4 +1,4 @@
-import {Html, Head, Body, Container, Section, Text, Hr} from "@react-email/components";
+import {Html, Body, Container, Section, Text, Hr} from "@react-email/components";
 import {format} from "date-fns";
 import {Tailwind} from "@react-email/tailwind";
 
@@ -12,6 +12,7 @@ type EventConfirmationEmailProps = {
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
+  teamName: string;
   participants: Participant[];
   timeSlot: Date;
   price: number;
@@ -24,6 +25,7 @@ export const EventConfirmationEmail = ({
   buyerName,
   buyerEmail,
   buyerTelegram,
+  teamName,
   participants,
   timeSlot,
   price,
@@ -85,6 +87,10 @@ export const EventConfirmationEmail = ({
                     <span className="font-semibold">Telegram:</span> {buyerTelegram}
                   </Text>
                 </div>
+
+                <Text className="mt-3 mb-2">
+                  <span className="font-semibold">Team Name:</span> {teamName}
+                </Text>
 
                 <Text className="mt-3 mb-2">
                   <span className="font-semibold">Team Members:</span>

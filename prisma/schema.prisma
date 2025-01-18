@@ -48,6 +48,7 @@ model Booking {
   buyerName       String
   buyerEmail      String
   buyerTelegram   String
+  teamName        String
   teamMembers     String[]
   totalAmount     Float
   stripeSessionId String?   @unique

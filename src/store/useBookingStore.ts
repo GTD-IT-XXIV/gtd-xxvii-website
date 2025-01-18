@@ -7,6 +7,7 @@ const initialState = {
   buyerName: "",
   buyerEmail: "",
   buyerTelegram: "",
+  teamName: "",
   teamMembers: Array(4).fill({name: ""}),
   selectedTimeSlotId: null,
   price: 0,
@@ -22,6 +23,8 @@ export const useBookingStore = create<BookingState>()(
 
       setBuyerDetails: (name, email, telegram) =>
         set({buyerName: name, buyerEmail: email, buyerTelegram: telegram}),
+
+      setTeamName: (name) => set({teamName: name}),
 
       setTeamMembers: (members) => set({teamMembers: members}),
 

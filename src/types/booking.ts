@@ -9,12 +9,14 @@ export type BookingState = {
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
+  teamName: string;
   teamMembers: TeamMember[];
   selectedTimeSlotId: string | null;
   price: number;
   booking: Booking | null;
   setSelectedEvent: (event: EventType | null) => void;
   setBuyerDetails: (name: string, email: string, telegram: string) => void;
+  setTeamName: (name: string) => void;
   setTeamMembers: (members: TeamMember[]) => void;
   setSelectedTimeSlot: (timeSlotId: string | null) => void;
   setPrice: (price: number) => void;

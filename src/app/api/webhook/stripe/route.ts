@@ -78,6 +78,7 @@ export async function POST(req: Request) {
           buyerName: booking.buyerName,
           buyerEmail: booking.buyerEmail,
           buyerTelegram: booking.buyerTelegram,
+          teamName: booking.teamName,
           participants: booking.teamMembers.map((member) => ({name: member})),
           timeSlot: booking.timeSlot.startTime,
           price: booking.totalAmount,
