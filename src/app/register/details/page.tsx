@@ -13,6 +13,7 @@ const bookingSchema = z.object({
   buyerName: z.string().min(1, "Leader's name is required"),
   buyerEmail: z.string().email("Invalid email address"),
   buyerTelegram: z.string().min(1, "Telegram handle is required"),
+  teamName: z.string().min(1, "Team name is required"),
   teamMembers: z
     .array(
       z.object({
@@ -27,10 +28,18 @@ type BookingFormData = z.infer<typeof bookingSchema>;
 export default function BookingDetailsPage() {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
-  const {selectedEvent} = useBookingStore();
 
-  const {buyerName, buyerEmail, buyerTelegram, teamMembers, setBuyerDetails, setTeamMembers} =
-    useBookingStore();
+  const {
+    selectedEvent,
+    buyerName,
+    buyerEmail,
+    buyerTelegram,
+    teamMembers,
+    teamName,
+    setBuyerDetails,
+    setTeamMembers,
+    setTeamName,
+  } = useBookingStore();
 
   useEffect(() => {
     setIsHydrated(true);
@@ -54,6 +63,7 @@ export default function BookingDetailsPage() {
       buyerName: buyerName || "",
       buyerEmail: buyerEmail || "",
       buyerTelegram: buyerTelegram || "",
+      teamName: teamName || "",
       teamMembers: teamMembers.length
         ? teamMembers.map((member) => ({name: member.name}))
         : Array(4).fill({name: ""}),
@@ -66,15 +76,17 @@ export default function BookingDetailsPage() {
         buyerName: buyerName || "",
         buyerEmail: buyerEmail || "",
         buyerTelegram: buyerTelegram || "",
+        teamName: teamName || "",
         teamMembers: teamMembers.length
           ? teamMembers.map((member) => ({name: member.name}))
           : Array(4).fill({name: ""}),
       });
     }
-  }, [isHydrated, buyerName, buyerEmail, buyerTelegram, teamMembers, reset]);
+  }, [isHydrated, buyerName, buyerEmail, buyerTelegram, teamName, teamMembers, reset]);
 
   const onSubmit = (data: BookingFormData) => {
     setBuyerDetails(data.buyerName, data.buyerEmail, data.buyerTelegram);
+    setTeamName(data.teamName);
     setTeamMembers(data.teamMembers);
     router.push("/register/timeslot");
   };
@@ -121,6 +133,14 @@ export default function BookingDetailsPage() {
                 <input {...register("buyerTelegram")} className="w-full p-2 border rounded" />
                 {errors.buyerTelegram && (
                   <p className="text-red-500 text-sm mt-1">{errors.buyerTelegram.message}</p>
+                )}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Team Name</label>
+                <input {...register("teamName")} className="w-full p-2 border rounded" />
+                {errors.teamName && (
+                  <p className="text-red-500 text-sm mt-1">{errors.teamName.message}</p>
                 )}
               </div>
 

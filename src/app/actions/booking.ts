@@ -31,6 +31,7 @@ export async function createBooking(data: {
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
+  teamName: string;
   teamMembers: {name: string}[];
 }) {
   await processStep();
@@ -59,6 +60,7 @@ export async function createBooking(data: {
         buyerName: data.buyerName,
         buyerEmail: data.buyerEmail,
         buyerTelegram: data.buyerTelegram,
+        teamName: data.teamName,
         teamMembers: data.teamMembers.map((m) => m.name),
         totalAmount: price,
       },
