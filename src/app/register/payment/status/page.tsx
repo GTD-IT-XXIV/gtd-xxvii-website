@@ -16,8 +16,14 @@ export default function PaymentStatusPage() {
     "processing",
   );
   const [message, setMessage] = useState("");
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
     const sessionId = searchParams.get("session_id");
     if (!sessionId) {
       router.push("/register");
@@ -47,7 +53,15 @@ export default function PaymentStatusPage() {
     };
 
     checkStatus();
-  }, [searchParams]);
+  }, [searchParams, isHydrated, reset, router]);
+
+  if (!isHydrated) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-12">

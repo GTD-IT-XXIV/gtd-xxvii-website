@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import {useRouter} from "next/navigation";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
@@ -9,12 +9,34 @@ import CheckoutPage from "./_components/CheckoutPage";
 export default function PaymentPage() {
   const router = useRouter();
   const store = useBookingStore();
+  const [isHydrated, setIsHydrated] = useState(false);
 
   useEffect(() => {
-    if (!store.selectedEvent || !store.selectedTimeSlotId || store.price == 0 || !store.booking) {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
+    if (!store.selectedEvent || !store.selectedTimeSlotId || store.price === 0 || !store.booking) {
       router.push("/register");
     }
-  }, [store.selectedEvent, store.selectedTimeSlotId, store.price, store.booking, router]);
+  }, [
+    isHydrated,
+    store.selectedEvent,
+    store.selectedTimeSlotId,
+    store.price,
+    store.booking,
+    router,
+  ]);
+
+  if (!isHydrated) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
