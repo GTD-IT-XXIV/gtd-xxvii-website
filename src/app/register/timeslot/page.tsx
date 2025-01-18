@@ -14,7 +14,7 @@ export default function BookingSlotPage() {
   const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot} = useBookingStore();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
-  const [selectedSlot, setSelectedSlot] = useState<string | null>(selectedTimeSlotId);
+  const [selectedSlot, setSelectedSlot] = useState<number | null>(selectedTimeSlotId);
   const [selectedDay, setSelectedDay] = useState<string>("All");
   const days = [
     "All",
@@ -60,7 +60,7 @@ export default function BookingSlotPage() {
     }
   }, [isHydrated, selectedTimeSlotId]);
 
-  const handleTimeSlotSelection = (slotId: string) => {
+  const handleTimeSlotSelection = (slotId: number) => {
     setSelectedSlot(slotId);
     setSelectedTimeSlot(slotId);
   };

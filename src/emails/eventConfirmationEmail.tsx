@@ -8,7 +8,7 @@ type Participant = {
 
 type EventConfirmationEmailProps = {
   eventName: "ESCAPE_ROOM" | "CASE_FILE";
-  bookingId: string;
+  bookingId: number;
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;

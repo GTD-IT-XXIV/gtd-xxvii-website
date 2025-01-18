@@ -19,7 +19,7 @@ enum BookingStatus {
 }
 
 model Event {
-  id          String     @id @default(cuid())
+  id          Int       @id @default(autoincrement())
   type        EventType
   price       Float
   earlyBirdPrice Float
@@ -31,8 +31,8 @@ model Event {
 }
 
 model TimeSlot {
-  id          String        @id @default(cuid())
-  eventId     String
+  id          Int        @id @default(autoincrement())
+  eventId     Int
   event       Event         @relation(fields: [eventId], references: [id])
   startTime   DateTime
   status      BookingStatus @default(AVAILABLE)
@@ -42,8 +42,8 @@ model TimeSlot {
 }
 
 model Booking {
-  id              String    @id @default(cuid())
-  timeSlotId      String    @unique
+  id              Int    @id @default(autoincrement())
+  timeSlotId      Int       @unique
   timeSlot        TimeSlot  @relation(fields: [timeSlotId], references: [id])
   buyerName       String
   buyerEmail      String

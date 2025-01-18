@@ -27,7 +27,7 @@ export async function getAvailableTimeSlots(eventType: EventType) {
 }
 
 export async function createBooking(data: {
-  timeSlotId: string;
+  timeSlotId: number;
   buyerName: string;
   buyerEmail: string;
   buyerTelegram: string;
@@ -76,7 +76,7 @@ export async function createBooking(data: {
   });
 }
 
-export async function createCheckoutSession(bookingId: string, amount: number) {
+export async function createCheckoutSession(bookingId: number, amount: number) {
   await processStep();
   console.log("Creating checkout session");
 
