@@ -3,12 +3,16 @@
 import prisma from "@/lib/db";
 import {EventType, BookingStatus} from "@prisma/client";
 import Stripe from "stripe";
+import {processStep} from "@/app/actions/generate-token";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
 });
 
 export async function getAvailableTimeSlots(eventType: EventType) {
+  await processStep();
+  console.log("Getting available time slots");
+
   const event = await prisma.event.findFirst({
     where: {type: eventType},
     include: {
@@ -29,6 +33,9 @@ export async function createBooking(data: {
   buyerTelegram: string;
   teamMembers: {name: string}[];
 }) {
+  await processStep();
+  console.log("Creating booking");
+
   // Start transaction
   return await prisma.$transaction(async (tx) => {
     // Get time slot and event details
@@ -68,6 +75,9 @@ export async function createBooking(data: {
 }
 
 export async function createCheckoutSession(bookingId: string, amount: number) {
+  await processStep();
+  console.log("Creating checkout session");
+
   try {
     const booking = await prisma.booking.findUnique({
       where: {id: bookingId},
@@ -116,6 +126,9 @@ export async function createCheckoutSession(bookingId: string, amount: number) {
 }
 
 export async function getPaymentStatus(sessionId: string) {
+  await processStep();
+  console.log("Getting payment status");
+
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId);
     return {status: session.status};
