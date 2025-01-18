@@ -10,14 +10,21 @@ import {createBooking} from "@/app/actions/booking";
 export default function SummaryPage() {
   const router = useRouter();
   const store = useBookingStore();
+  const [isHydrated, setIsHydrated] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
+    setIsHydrated(true);
+  }, []);
+
+  useEffect(() => {
+    if (!isHydrated) return;
+
     if (!store.selectedEvent || !store.selectedTimeSlotId) {
       router.push("/register");
     }
-  }, [store.selectedEvent, store.selectedTimeSlotId, router]);
+  }, [isHydrated, store.selectedEvent, store.selectedTimeSlotId, router]);
 
   const handleNext = async () => {
     try {
@@ -36,14 +43,21 @@ export default function SummaryPage() {
       store.setBooking(booking);
       // price still in dollars
       store.setPrice(price);
+      router.push("/register/payment");
     } catch (err) {
       console.error("Booking creation error:", err);
       setError(err instanceof Error ? err.message : "Booking creation failed");
-    } finally {
       setLoading(false);
     }
-    router.push("/register/payment");
   };
+
+  if (!isHydrated) {
+    return (
+      <div className="flex justify-center items-center min-h-screen">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
