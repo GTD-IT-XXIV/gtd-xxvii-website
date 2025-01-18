@@ -139,8 +139,8 @@ git push
 
 ### Style Guide
 
-- Use kebab case to name files, e.g., `leaderboard-router.ts`
-- Use kebab case + full component name for component files, e.g., `button-group-card.tsx` for `<ButtonGroupCard />`
+- Use lower camel case to name files, e.g., `sendConfirmationEmail.ts`
+- Use lower camel case + full component name for component files, e.g., `buttonGroupCard.tsx` for `<ButtonGroupCard />`
 - Use import aliases instead of relative paths for package imports, e.g. `import { Button } from "@/components/ui/button";`
 - Git commits style guide: [Conventional Commits 1.0.0](https://www.conventionalcommits.org/en/v1.0.0/)
 - Use TypeScript types instead of interfaces unless necessary ([_why?_](https://youtu.be/zM9UPcIyyhQ?si=TI7vrg4OZAOpBd1x))
