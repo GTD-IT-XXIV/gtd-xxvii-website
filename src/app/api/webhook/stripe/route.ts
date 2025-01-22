@@ -4,6 +4,7 @@ import prisma from "@/lib/db";
 import Stripe from "stripe";
 import {BookingStatus} from "@prisma/client";
 import {sendConfirmationEmail} from "@/app/actions/sendConfirmationEmail";
+import {addBookingToSheet} from "@/utils/googleSheets";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2024-12-18.acacia"});
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
@@ -96,7 +97,11 @@ export async function POST(req: Request) {
         });
 
         // Update Google Sheets
-        // await updateGoogleSheet(booking);
+        if (events && timeSlot && booking) {
+          await addBookingToSheet(booking, timeSlot, events);
+        } else {
+          throw new Error("Event not found");
+        }
 
         break;
       }
