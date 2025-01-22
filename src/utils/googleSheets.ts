@@ -24,7 +24,15 @@ export async function addBookingToSheet(booking: Booking, timeSlot: TimeSlot, ev
     [
       booking.id,
       booking.timeSlotId,
-      timeSlot.startTime,
+      timeSlot.startTime.toLocaleString("en-SG", {
+        timeZone: "Asia/Singapore",
+        year: "numeric",
+        month: "short",
+        day: "numeric",
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: true,
+      }),
       booking.teamName,
       booking.buyerName,
       booking.buyerEmail,
@@ -52,8 +60,7 @@ export async function getLeaderboardData(eventType: EventType) {
   const sheets = getGoogleSheetsClient();
   const spreadsheetId = process.env.GOOGLE_SHEET_ID;
 
-  const worksheetName =
-    eventType === EventType.ESCAPE_ROOM ? "Escape Room Bookings" : "Case File Bookings";
+  const worksheetName = eventType === EventType.ESCAPE_ROOM ? "Escape Room" : "Case File";
 
   try {
     const response = await sheets.spreadsheets.values.get({
