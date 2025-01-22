@@ -2,8 +2,6 @@
 
 import Link from "next/link";
 import {Button} from "./_components/ui/button";
-import {useEffect} from "react";
-import {generateTokens} from "./actions/generate-token";
 
 export default function Home() {
   return (

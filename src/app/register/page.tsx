@@ -5,7 +5,7 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {EventType} from "@prisma/client";
-import {generateTokens} from "@/app/actions/generate-token";
+import {generateTokens} from "@/utils/generate-token";
 
 export default function RegistrationPage() {
   const router = useRouter();

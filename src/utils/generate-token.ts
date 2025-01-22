@@ -4,7 +4,6 @@ import {v4 as uuidv4} from "uuid";
 import redis from "@/lib/redis";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
-import {useBookingStore} from "@/store/useBookingStore";
 
 const duration = 30; // seconds
 

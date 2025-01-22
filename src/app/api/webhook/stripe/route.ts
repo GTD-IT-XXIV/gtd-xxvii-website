@@ -3,7 +3,7 @@ import {NextResponse} from "next/server";
 import prisma from "@/lib/db";
 import Stripe from "stripe";
 import {BookingStatus} from "@prisma/client";
-import {sendConfirmationEmail} from "@/app/actions/sendConfirmationEmail";
+import {sendConfirmationEmail} from "@/utils/sendConfirmationEmail";
 import {addBookingToSheet} from "@/utils/googleSheets";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2024-12-18.acacia"});

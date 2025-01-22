@@ -3,7 +3,7 @@
 import prisma from "@/lib/db";
 import {EventType, BookingStatus} from "@prisma/client";
 import Stripe from "stripe";
-import {processStep} from "@/app/actions/generate-token";
+import {processStep} from "@/utils/generate-token";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
