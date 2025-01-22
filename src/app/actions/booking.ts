@@ -3,7 +3,7 @@
 import prisma from "@/lib/db";
 import {EventType, BookingStatus} from "@prisma/client";
 import Stripe from "stripe";
-import {processStep} from "@/utils/generate-token";
+import {processStep} from "@/app/actions/generate-token";
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
   apiVersion: "2024-12-18.acacia",
@@ -140,13 +140,25 @@ export async function getPaymentStatus(sessionId: string) {
   }
 }
 
-export async function validateTeamName(teamName: string) {
+export async function validateTeamName(teamName: string, event: EventType) {
   const existingBooking = await prisma.booking.findFirst({
     where: {
-      teamName: {
-        equals: teamName,
-        mode: "insensitive", // Case-insensitive comparison
-      },
+      AND: [
+        {
+          teamName: {
+            equals: teamName,
+            mode: "insensitive", // Case-insensitive comparison
+          },
+        },
+        {
+          timeSlot: {
+            event: {type: event},
+          },
+        },
+      ],
+    },
+    include: {
+      timeSlot: true,
     },
   });
 

@@ -9,25 +9,16 @@ import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {useEffect, useState} from "react";
 import {validateTeamName} from "@/app/actions/booking";
+import {EventType} from "@prisma/client";
 
-const bookingSchema = z.object({
-  buyerName: z.string().min(1, "Leader's name is required"),
-  buyerEmail: z.string().email("Invalid email address"),
-  buyerTelegram: z.string().min(1, "Telegram handle is required"),
-  teamName: z
+const createTeamNameSchema = (event: EventType) =>
+  z
     .string()
     .min(1, "Team name is required")
-    .refine(async (name) => validateTeamName(name), "This team name is already taken"),
-  teamMembers: z
-    .array(
-      z.object({
-        name: z.string().min(1, "Team member name is required"),
-      }),
-    )
-    .length(4, "Exactly 4 team members are required"),
-});
-
-type BookingFormData = z.infer<typeof bookingSchema>;
+    .refine(
+      async (name) => validateTeamName(name, event),
+      "This team name is already taken for this event",
+    );
 
 export default function BookingDetailsPage() {
   const router = useRouter();
@@ -46,6 +37,20 @@ export default function BookingDetailsPage() {
     setTeamName,
   } = useBookingStore();
 
+  const bookingSchema = z.object({
+    buyerName: z.string().min(1, "Leader's name is required"),
+    buyerEmail: z.string().email("Invalid email address"),
+    buyerTelegram: z.string().min(1, "Telegram handle is required"),
+    teamName: selectedEvent ? createTeamNameSchema(selectedEvent) : z.string(),
+    teamMembers: z
+      .array(
+        z.object({
+          name: z.string().min(1, "Team member name is required"),
+        }),
+      )
+      .length(4, "Exactly 4 team members are required"),
+  });
+
   useEffect(() => {
     setIsHydrated(true);
   }, []);
@@ -63,7 +68,7 @@ export default function BookingDetailsPage() {
     reset,
     formState: {errors, isSubmitting},
     trigger,
-  } = useForm<BookingFormData>({
+  } = useForm<z.infer<typeof bookingSchema>>({
     resolver: zodResolver(bookingSchema),
     defaultValues: {
       buyerName: buyerName || "",
@@ -90,11 +95,16 @@ export default function BookingDetailsPage() {
     }
   }, [isHydrated, buyerName, buyerEmail, buyerTelegram, teamName, teamMembers, reset]);
 
-  const onSubmit = async (data: BookingFormData) => {
+  const onSubmit = async (data: z.infer<typeof bookingSchema>) => {
+    if (!selectedEvent) {
+      router.push("/register");
+      return;
+    }
+
     setIsValidating(true);
     try {
-      // Validate team name one final time before proceeding
-      const isValid = await validateTeamName(data.teamName);
+      // Final validation check with event ID
+      const isValid = await validateTeamName(data.teamName, selectedEvent);
       if (!isValid) {
         setIsValidating(false);
         return;
@@ -112,7 +122,7 @@ export default function BookingDetailsPage() {
   // Add debounced team name validation
   const handleTeamNameChange = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
-    if (value) {
+    if (value && selectedEvent) {
       await trigger("teamName");
     }
   };
