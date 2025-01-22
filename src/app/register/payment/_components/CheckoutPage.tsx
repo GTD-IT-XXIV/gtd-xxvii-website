@@ -4,6 +4,8 @@ import {useState, useEffect} from "react";
 import {createCheckoutSession} from "@/app/actions/booking";
 import {EmbeddedCheckoutProvider, EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
+import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
+
 if (process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY === undefined) {
   throw new Error("NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY is not defined");
 }
@@ -29,11 +31,7 @@ const CheckoutPage = ({amount, bookingId}: {amount: number; bookingId: number}) 
   }, [amount, bookingId]);
 
   if (!clientSecret) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

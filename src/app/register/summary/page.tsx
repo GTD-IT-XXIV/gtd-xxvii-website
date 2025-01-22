@@ -6,6 +6,7 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {createBooking} from "@/app/actions/booking";
+import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function SummaryPage() {
   const router = useRouter();
@@ -53,11 +54,7 @@ export default function SummaryPage() {
   };
 
   if (!isHydrated) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

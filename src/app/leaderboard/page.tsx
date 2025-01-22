@@ -3,7 +3,7 @@ import {Card, CardHeader, CardTitle, CardContent} from "@/components/ui/card";
 import {Tabs, TabsContent, TabsList, TabsTrigger} from "@/components/ui/tabs";
 import {EventType} from "@prisma/client";
 import {LeaderboardContent} from "./_components/LeaderboardContent";
-import {LoadingSpinner} from "./_components/LoadingSpinner";
+import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 const LeaderboardPage = () => {
   return (

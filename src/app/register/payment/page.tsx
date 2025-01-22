@@ -5,6 +5,7 @@ import {useRouter} from "next/navigation";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import CheckoutPage from "./_components/CheckoutPage";
+import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function PaymentPage() {
   const router = useRouter();
@@ -31,11 +32,7 @@ export default function PaymentPage() {
   ]);
 
   if (!isHydrated) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   return (

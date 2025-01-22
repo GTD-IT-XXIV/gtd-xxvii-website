@@ -7,6 +7,7 @@ import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {getAvailableTimeSlots} from "@/app/actions/booking";
 import type {TimeSlot} from "@prisma/client";
+import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function BookingSlotPage() {
   const router = useRouter();
@@ -82,11 +83,7 @@ export default function BookingSlotPage() {
   };
 
   if (!isHydrated || loading) {
-    return (
-      <div className="flex justify-center items-center min-h-screen">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
-      </div>
-    );
+    return <LoadingSpinner />;
   }
 
   const filteredTimeSlots = filterTimeSlots(timeSlots);
