@@ -45,7 +45,7 @@ export async function addBookingToSheet(booking: Booking, timeSlot: TimeSlot, ev
   try {
     await sheets.spreadsheets.values.append({
       spreadsheetId,
-      range: `${worksheetName}!A:J`,
+      range: `${worksheetName}!A:L`,
       valueInputOption: "USER_ENTERED",
       requestBody: {values},
     });
@@ -58,14 +58,14 @@ export async function addBookingToSheet(booking: Booking, timeSlot: TimeSlot, ev
 // Get leaderboard data
 export async function getLeaderboardData(eventType: EventType) {
   const sheets = getGoogleSheetsClient();
-  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+  const spreadsheetId = process.env.GOOGLE_SHEETS_ID;
 
   const worksheetName = eventType === EventType.ESCAPE_ROOM ? "Escape Room" : "Case File";
 
   try {
     const response = await sheets.spreadsheets.values.get({
       spreadsheetId,
-      range: `${worksheetName}!A:J`,
+      range: `${worksheetName}!A:L`,
     });
 
     const rows = response.data.values || [];
@@ -73,9 +73,10 @@ export async function getLeaderboardData(eventType: EventType) {
     // Filter teams with completion times and sort by completion time
     return rows
       .slice(1) // Skip header row
-      .filter((row) => row[11] !== "") // Only include teams with completion times
+      .filter((row) => row[11] !== undefined) // Only include teams with completion times
       .map((row) => ({
         teamName: row[3],
+        leaderName: row[4],
         completionTime: row[11],
         members: row.slice(7, 11),
       }))
