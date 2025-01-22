@@ -16,7 +16,7 @@ const getGoogleSheetsClient = () => {
 // Add booking record to respective worksheet
 export async function addBookingToSheet(booking: Booking, timeSlot: TimeSlot, event: Event) {
   const sheets = getGoogleSheetsClient();
-  const spreadsheetId = process.env.GOOGLE_SHEET_ID;
+  const spreadsheetId = process.env.GOOGLE_SHEETS_ID;
 
   const worksheetName = event.type === EventType.ESCAPE_ROOM ? "Escape Room" : "Case File";
 
