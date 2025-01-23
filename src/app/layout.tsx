@@ -1,16 +1,42 @@
 import type {Metadata} from "next";
-import {Geist, Geist_Mono} from "next/font/google";
+import {Inter, Lobster} from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar";
+import localFont from "next/font/local";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
+const tangak = localFont({
+  src: [
+    {
+      path: "../../public/fonts/tangak.otf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-tangak",
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const kaftus = localFont({
+  src: [
+    {
+      path: "../../public/fonts/kaftus.ttf",
+      weight: "400",
+      style: "normal",
+    },
+  ],
+  variable: "--font-kaftus",
+});
+
+const inter = Inter({
   subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+});
+
+const lobster = Lobster({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-lobster",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,7 +51,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+      <body
+        className={`
+        ${inter.variable} 
+        ${kaftus.variable} 
+        ${lobster.variable} 
+        ${tangak.variable} 
+        text-primary
+      `}
+      >
         <main className="flex flex-col min-h-screen">
           <Navbar />
           <section className="flex-grow">{children}</section>
