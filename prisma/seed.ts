@@ -1,5 +1,5 @@
 import {PrismaClient, EventType} from "@prisma/client";
-import {addDays, setHours, setMinutes} from "date-fns";
+import {setHours, setMinutes} from "date-fns";
 
 const prisma = new PrismaClient();
 
@@ -23,15 +23,19 @@ async function main() {
     },
   });
 
-  // Generate time slots for the next 3 days
-  const events = [escapeRoom, caseFile];
+  // Generate time slots for specific dates
+  const events = [
+    {event: escapeRoom, dates: ["2025-02-22", "2025-02-23"]},
+    {event: caseFile, dates: ["2025-03-01", "2025-03-02"]},
+  ];
+
   const timeSlots = [];
 
-  for (const event of events) {
-    for (let day = 0; day < 3; day++) {
+  for (const {event, dates} of events) {
+    for (const dateStr of dates) {
       // Create slots from 10 AM to 8 PM, every 2 hours
       for (let hour = 10; hour <= 20; hour += 2) {
-        const startTime = setHours(setMinutes(addDays(new Date(), day), 0), hour);
+        const startTime = setHours(setMinutes(new Date(dateStr), 0), hour);
 
         timeSlots.push({
           eventId: event.id,
