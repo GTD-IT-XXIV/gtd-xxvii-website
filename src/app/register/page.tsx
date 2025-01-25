@@ -54,7 +54,7 @@ export default function RegistrationPage() {
           onClick={() => handleEventSelection("ESCAPE_ROOM")}
         >
           <CardHeader>
-            <CardTitle>Escape Room</CardTitle>
+            <CardTitle className="font-kaftus text-xl">Escape Room</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
@@ -69,7 +69,7 @@ export default function RegistrationPage() {
           onClick={() => handleEventSelection("CASE_FILE")}
         >
           <CardHeader>
-            <CardTitle>Case File</CardTitle>
+            <CardTitle className="font-kaftus text-xl">Case File</CardTitle>
           </CardHeader>
           <CardContent>
             <p className="text-gray-600">
