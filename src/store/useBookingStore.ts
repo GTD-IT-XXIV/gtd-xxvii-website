@@ -12,6 +12,7 @@ const initialState = {
   selectedTimeSlotId: null,
   price: 0,
   booking: null,
+  startTime: "",
 };
 
 export const useBookingStore = create<BookingState>()(
@@ -33,6 +34,8 @@ export const useBookingStore = create<BookingState>()(
       setPrice: (price) => set({price}),
 
       setBooking: (booking) => set({booking}),
+
+      setStartTime: (startTime) => set({startTime}),
 
       resetStore: () => set(initialState),
     }),

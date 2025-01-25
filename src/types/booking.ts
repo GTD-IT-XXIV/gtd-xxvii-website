@@ -14,6 +14,7 @@ export type BookingState = {
   selectedTimeSlotId: number | null;
   price: number;
   booking: Booking | null;
+  startTime: string;
   setSelectedEvent: (event: EventType | null) => void;
   setBuyerDetails: (name: string, email: string, telegram: string) => void;
   setTeamName: (name: string) => void;
@@ -21,5 +22,6 @@ export type BookingState = {
   setSelectedTimeSlot: (timeSlotId: number | null) => void;
   setPrice: (price: number) => void;
   setBooking: (booking: Booking | null) => void;
+  setStartTime: (startTime: string) => void;
   resetStore: () => void;
 };

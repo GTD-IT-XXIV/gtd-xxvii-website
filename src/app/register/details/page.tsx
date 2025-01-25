@@ -133,12 +133,12 @@ export default function BookingDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1 className="text-3xl font-bold my-4 text-center">Booking Details</h1>
+    <div className="container mx-auto px-4 py-8 font-sef">
+      <h1 className="text-3xl font-bold my-4 text-center font-headline">Booking Details</h1>
       <div className="w-5/6 mx-auto">
         <Card className="max-w-lg mx-auto mt-8 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
           <CardHeader>
-            <CardTitle className="font-bold text-lg">Fill in your details: </CardTitle>
+            <CardTitle className="font-bold text-lg font-kaftus">Fill in your details</CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
@@ -224,7 +224,7 @@ export default function BookingDetailsPage() {
             type="button"
             variant="outline"
             onClick={() => router.back()}
-            className="h-6 px-6 rounded-lg bg-[#373737] text-white"
+            className="h-6 px-4 mx-2 rounded-lg bg-[#373737] hover:opacity-80 hover:bg-[#373737] hover:text-white text-white"
           >
             Back
           </Button>
@@ -232,7 +232,7 @@ export default function BookingDetailsPage() {
             type="submit"
             disabled={isSubmitting || isValidating}
             onClick={handleSubmit(onSubmit)}
-            className="h-6 px-6 rounded-lg bg-[#FF0089]"
+            className="h-6 px-4 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
           >
             {isSubmitting || isValidating ? "Validating..." : "Next"}
           </Button>

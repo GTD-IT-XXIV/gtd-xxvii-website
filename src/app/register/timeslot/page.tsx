@@ -12,7 +12,7 @@ import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 export default function BookingSlotPage() {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
-  const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot} = useBookingStore();
+  const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot, setStartTime} = useBookingStore();
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<number | null>(selectedTimeSlotId);
@@ -64,6 +64,10 @@ export default function BookingSlotPage() {
   const handleTimeSlotSelection = (slotId: number) => {
     setSelectedSlot(slotId);
     setSelectedTimeSlot(slotId);
+    const selectedSlot = timeSlots.find((slot) => slot.id === slotId);
+    if (selectedSlot) {
+      setStartTime(new Date(selectedSlot.startTime).toLocaleString());
+    }
   };
 
   const handleNext = () => {

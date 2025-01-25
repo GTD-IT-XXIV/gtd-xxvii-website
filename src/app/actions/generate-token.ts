@@ -5,7 +5,7 @@ import redis from "@/lib/redis";
 import {cookies} from "next/headers";
 import {redirect} from "next/navigation";
 
-const duration = 30; // seconds
+const duration = 1800; // seconds
 
 export async function generateTokens() {
   const sessionToken = uuidv4();

@@ -58,42 +58,86 @@ export default function SummaryPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="max-w-2xl mx-auto">
+    <div className="container mx-auto px-4 py-8 font-inter">
+      <h2 className="text-3xl font-bold my-4 text-center font-headline">Summary</h2>
+      <Card className="w-[90%] max-w-2xl mx-auto mt-8 h-4/5 text-gtd-primary shadow-[0px_4px_4px_0px_#00000040]">
         <CardHeader>
-          <CardTitle>Summary</CardTitle>
+          <CardTitle className="font-bold text-lg font-kaftus">Booking Summary</CardTitle>
         </CardHeader>
         <CardContent>
-          <div className="space-y-6">
-            <div className="border-t pt-4">
-              <h3 className="font-medium mb-2">Booking Summary</h3>
-              <p>Event: {store.selectedEvent === "CASE_FILE" ? "Case File" : "Escape Room"}</p>
-              <p>Leader: {store.buyerName}</p>
-              <p>Email Leader: {store.buyerEmail}</p>
-              <p>Telegram Leader: {store.buyerTelegram}</p>
-              <p>Team Name: {store.teamName}</p>
-              <p>Team Members: {store.teamMembers.map((m) => m.name).join(", ")}</p>
+          <div className="space-y-4 text-xs font-medium font text-muted-foreground font-inter">
+            <div className="border-b-2 border-gtd-primary px-2">
+              <div className="w-full flex my-4 mt-0 justify-between">
+                <div className="w-2/5">Event</div>
+                <div className="text-right w-3/5">
+                  {store.selectedEvent === "CASE_FILE" ? "Case File" : "Escape Room"}
+                </div>
+              </div>
+
+              <div className="w-full flex my-4 justify-between">
+                <div className="w-2/5">Selected Timeslot</div>
+                <div className="text-right w-3/5">{store.startTime}</div>
+              </div>
+
+              <div className="w-full flex my-4 justify-between">
+                <div className="w-2/5">Leader</div>
+                <div className="text-right w-3/5">{store.buyerName}</div>
+              </div>
+
+              <div className="w-full flex my-4 justify-between">
+                <div className="w-2/5">Email Leader</div>
+                <div className="text-right w-3/5">{store.buyerEmail}</div>
+              </div>
+
+              <div className="w-full flex my-4 justify-between">
+                <div className="w-2/5">Telegram Leader</div>
+                <div className="text-right w-3/5">{store.buyerTelegram}</div>
+              </div>
+
+              <div className="w-full flex my-4 justify-between">
+                <div className="w-2/5">Team Name</div>
+                <div className="text-right w-3/5">{store.teamName}</div>
+              </div>
+
+              <div className="w-full flex my-4 mb-12 justify-between">
+                <div className="w-2/5 flex items-center">Team Member</div>
+                <div className="text-right w-1/2">
+                  {store.teamMembers.map((m) => m.name).join(", ")}
+                </div>
+              </div>
             </div>
-            <div>
-              <p className="text-red-600">
-                Make sure that the details are correct. You can not go back after proceeding to
-                payment
+            <div className="px-2 flex justify-between text-gtd-primary font-bold text-xs">
+              <div className="">Total</div>
+              <div>SGD{" " + store.price.toFixed(2)}</div>
+            </div>
+            <div className="px-2 text-xs">
+              <p className="text-red-600 font-inter">
+                **Make sure that the details are correct. You can not go back after proceeding to
+                payment**
               </p>
             </div>
 
             {error && <div className="bg-red-50 text-red-500 p-4 rounded">{error}</div>}
-
-            <div className="flex justify-end space-x-4">
-              <Button variant="outline" onClick={() => router.back()} disabled={loading}>
-                Back
-              </Button>
-              <Button onClick={handleNext} disabled={loading}>
-                {loading ? "Processing..." : "Proceed to Payment"}
-              </Button>
-            </div>
           </div>
         </CardContent>
       </Card>
+      <div className="flex justify-end space-x- mt-20">
+        <Button
+          variant="outline"
+          onClick={() => router.back()}
+          disabled={loading}
+          className="h-6 px-4 mx-2 text-base rounded-lg bg-[#373737] hover:opacity-80 hover:bg-[#373737] hover:text-white text-white"
+        >
+          Back
+        </Button>
+        <Button
+          onClick={handleNext}
+          disabled={loading}
+          className="h-6 px-4 text-base rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-[#FF0089]"
+        >
+          {loading ? "Processing..." : "Proceed to Payment"}
+        </Button>
+      </div>
     </div>
   );
 }
