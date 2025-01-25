@@ -136,13 +136,13 @@ export default function BookingDetailsPage() {
     <div className="container mx-auto px-4 py-8 font-sef">
       <h1 className="text-3xl font-bold my-4 text-center font-headline">Booking Details</h1>
       <div className="w-5/6 mx-auto">
-        <Card className="max-w-lg mx-auto mt-8 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
+        <Card className="max-w-7xl mx-auto mt-8 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
           <CardHeader>
             <CardTitle className="font-bold text-lg font-kaftus">Fill in your details</CardTitle>
           </CardHeader>
           <CardContent>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
-              <div className="space-y-4">
+            <form onSubmit={handleSubmit(onSubmit)} className="md:flex md:justify-left">
+              <div className="md:w-1/2 space-y-4 mb-4 md:px-8">
                 <div>
                   <label className="block text-xs font-medium mb-1">Leader Name</label>
                   <input
@@ -195,7 +195,9 @@ export default function BookingDetailsPage() {
                     <p className="text-red-500 text-sm mt-1">{errors.teamName.message}</p>
                   )}
                 </div>
+              </div>
 
+              <div className="md:w-1/2 space-y-4 md:px-8">
                 <div className="space-y-4">
                   {[0, 1, 2, 3].map((index) => (
                     <div key={index}>
@@ -224,7 +226,7 @@ export default function BookingDetailsPage() {
             type="button"
             variant="outline"
             onClick={() => router.back()}
-            className="h-6 px-4 mx-2 rounded-lg bg-[#373737] hover:opacity-80 hover:bg-[#373737] hover:text-white text-white"
+            className="h-6 px-6 py-4 mx-2 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
           >
             Back
           </Button>
@@ -232,7 +234,7 @@ export default function BookingDetailsPage() {
             type="submit"
             disabled={isSubmitting || isValidating}
             onClick={handleSubmit(onSubmit)}
-            className="h-6 px-4 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
+            className="h-6 px-6 py-4 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
           >
             {isSubmitting || isValidating ? "Validating..." : "Next"}
           </Button>

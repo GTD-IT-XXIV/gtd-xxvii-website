@@ -121,7 +121,7 @@ export default function SummaryPage() {
           </div>
         </CardContent>
       </Card>
-      <div className="flex justify-end space-x- mt-20">
+      <div className="flex justify-end space-x-4 mt-8 w-5/6 max-w-2xl mx-auto">
         <Button
           variant="outline"
           onClick={() => router.back()}
