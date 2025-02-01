@@ -35,7 +35,8 @@ async function main() {
     for (const dateStr of dates) {
       // Create slots from 10 AM to 8 PM, every 2 hours
       for (let hour = 10; hour <= 20; hour += 2) {
-        const startTime = setHours(setMinutes(new Date(dateStr), 0), hour);
+        // Create a date in Singapore time (UTC+8)
+        const startTime = new Date(`${dateStr}T${hour.toString().padStart(2, "0")}:00:00+08:00`);
 
         timeSlots.push({
           eventId: event.id,
