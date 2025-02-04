@@ -12,22 +12,10 @@ import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 export default function BookingSlotPage() {
   const router = useRouter();
   const [isHydrated, setIsHydrated] = useState(false);
-  const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot, setStartTime} = useBookingStore();
+  const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot, setStartTime} = useBookingStore(); // selectedEvent = ESCAPE_ROOM | CASE_FILE
   const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedSlot, setSelectedSlot] = useState<number | null>(selectedTimeSlotId);
-  const [selectedDay, setSelectedDay] = useState<string>("All");
-  const days = [
-    "All",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday",
-    "Sunday",
-  ];
-
   useEffect(() => {
     setIsHydrated(true);
   }, []);
@@ -76,76 +64,57 @@ export default function BookingSlotPage() {
     }
   };
 
-  const filterTimeSlots = (slots: TimeSlot[]) => {
-    if (selectedDay === "All") return slots;
-
-    return slots.filter((slot) => {
-      const date = new Date(slot.startTime);
-      const day = new Intl.DateTimeFormat("en-US", {weekday: "long"}).format(date);
-      return day === selectedDay;
-    });
-  };
-
   if (!isHydrated || loading) {
     return <LoadingSpinner />;
   }
 
-  const filteredTimeSlots = filterTimeSlots(timeSlots);
-
   return (
-    <div className="container mx-auto px-4 py-8">
-      <Card className="max-w-2xl mx-auto">
+    <div className="container px-4 mx-auto py-8">
+      <div className="text-3xl text-center text-white font-bold mt-5">Select Timeslot</div>
+      <div className="text-sm text-center font-semibold text-white mb-10">
+        Date: {selectedEvent === "CASE_FILE" ? "23 February 2025" : "1 March 2025"}
+      </div>
+      <Card className="max-w-2xl mx-auto p-2 shadow-md">
         <CardHeader>
-          <CardTitle className="mb-2">Select Time Slot</CardTitle>
-          <div className="relative w-full">
-            <div className="overflow-x-auto scrollbar-thin scrollbar-track-transparent scrollbar-thumb-transparent">
-              <div className="flex gap-2">
-                {days.map((day) => (
-                  <Button
-                    key={day}
-                    variant={selectedDay === day ? "default" : "outline"}
-                    size="sm"
-                    onClick={() => setSelectedDay(day)}
-                    className="min-w-[80px]"
-                  >
-                    {day}
-                  </Button>
-                ))}
-              </div>
-            </div>
-          </div>
+          <CardTitle className="text-xl text-[#FF0089]">Choose Your Timeslot:</CardTitle>
         </CardHeader>
         <CardContent>
-          {filteredTimeSlots.length === 0 ? (
+          {timeSlots.length === 0 ? (
             <p className="text-center text-gray-500 py-8">No available time slots found.</p>
           ) : (
-            <div className="grid gap-4">
-              {filteredTimeSlots.map((slot) => (
-                <div
+            <div className="grid grid-cols-2 gap-4">
+              {timeSlots.map((slot) => (
+                <button
                   key={slot.id}
-                  className={`p-4 border rounded cursor-pointer transition-colors ${
+                  className={`px-4 py-2 border border-[#64748B] rounded-xl cursor-pointer transition-colors text-center ${
                     selectedSlot === slot.id
-                      ? "border-primary bg-primary/5"
-                      : "hover:border-gray-300"
+                      ? "border-primary bg-primary/10"
+                      : "hover:bg-primary/10"
                   }`}
                   onClick={() => handleTimeSlotSelection(slot.id)}
                 >
-                  <p className="font-medium">{new Date(slot.startTime).toLocaleString()}</p>
-                </div>
+                  <p className="font-normal text-[#64748B]">{`${new Date(slot.startTime).getHours().toString().padStart(2, "0")}:${new Date(slot.startTime).getMinutes().toString().padStart(2, "0")}`}</p>
+                </button>
               ))}
             </div>
           )}
-
-          <div className="flex justify-end space-x-4 mt-6">
-            <Button variant="outline" onClick={() => router.back()}>
-              Back
-            </Button>
-            <Button onClick={handleNext} disabled={!selectedSlot}>
-              Next
-            </Button>
-          </div>
         </CardContent>
       </Card>
+      <div className="flex justify-end space-x-4 mt-6">
+        <Button
+          onClick={() => router.back()}
+          className="bg-[#373737] py-2 text-white hover:bg-slate-600"
+        >
+          Back
+        </Button>
+        <Button
+          onClick={handleNext}
+          disabled={!selectedSlot}
+          className="bg-[#FF0089] py-2 text-white hover:bg-pink-400"
+        >
+          Next
+        </Button>
+      </div>
     </div>
   );
 }
