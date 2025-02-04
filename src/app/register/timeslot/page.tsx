@@ -84,8 +84,8 @@ export default function BookingSlotPage() {
                   key={slot.id}
                   className={`px-4 py-2 border border-[#64748B] rounded-xl cursor-pointer transition-colors text-center ${
                     selectedSlot === slot.id
-                      ? "border-primary bg-primary/5"
-                      : "hover:border-gray-300"
+                      ? "border-primary bg-primary/10"
+                      : "hover:bg-primary/10"
                   }`}
                   onClick={() => handleTimeSlotSelection(slot.id)}
                 >
