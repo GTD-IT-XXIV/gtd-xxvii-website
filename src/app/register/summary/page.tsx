@@ -126,14 +126,14 @@ export default function SummaryPage() {
           variant="outline"
           onClick={() => router.back()}
           disabled={loading}
-          className="h-6 px-4 mx-2 text-base rounded-lg bg-[#373737] hover:opacity-80 hover:bg-[#373737] hover:text-white text-white"
+          className="h-6 px-6 py-4  text-base rounded-lg bg-[#373737] hover:opacity-80 hover:bg-[#373737] hover:text-white text-white"
         >
           Back
         </Button>
         <Button
           onClick={handleNext}
           disabled={loading}
-          className="h-6 px-4 text-base rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-[#FF0089]"
+          className="h-6 px-6 py-4 text-base rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-[#FF0089]"
         >
           {loading ? "Processing..." : "Proceed to Payment"}
         </Button>
