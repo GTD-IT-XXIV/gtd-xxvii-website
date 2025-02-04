@@ -108,7 +108,7 @@ export default function RegistrationPage() {
           type="button"
           variant="outline"
           onClick={() => router.back()}
-          className="h-6 px-6 py-4 mx-2 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
+          className="h-6 px-6 py-4 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
         >
           Back
         </Button>
