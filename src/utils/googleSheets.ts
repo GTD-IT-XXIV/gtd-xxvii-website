@@ -31,7 +31,7 @@ export async function addBookingToSheet(booking: Booking, timeSlot: TimeSlot, ev
         day: "numeric",
         hour: "2-digit",
         minute: "2-digit",
-        hour12: true,
+        hour12: false,
       }),
       booking.teamName,
       booking.buyerName,

@@ -99,7 +99,27 @@ export async function createCheckoutSession(bookingId: number, amount: number) {
             currency: "sgd",
             product_data: {
               name: `${booking.timeSlot.event.type === "CASE_FILE" ? "Case File" : "Escape Room"} Registration`,
-              description: `Booking for ${booking.timeSlot.startTime ? new Date(booking.timeSlot.startTime).toLocaleString() : "unknown time"} timeslot`,
+              description: `Booking for ${
+                booking.timeSlot.startTime.toLocaleString("en-SG", {
+                  timeZone: "Asia/Singapore",
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "2-digit",
+                  minute: "2-digit",
+                  hour12: false,
+                })
+                  ? new Date(booking.timeSlot.startTime).toLocaleString("en-SG", {
+                      timeZone: "Asia/Singapore",
+                      year: "numeric",
+                      month: "short",
+                      day: "numeric",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: false,
+                    })
+                  : "unknown time"
+              } timeslot`,
             },
             unit_amount: Math.round(amount * 100), // Convert to cents
           },
