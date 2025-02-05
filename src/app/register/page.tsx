@@ -7,7 +7,9 @@ import {Button} from "@/components/ui/button";
 import {EventType} from "@prisma/client";
 import {generateTokens} from "@/app/actions/generate-token";
 import Image from "next/image";
-import logoGTDBlack from "@/assets/images/logo-gtd-black-transparent.png";
+import {LucideCircleDollarSign, LucideCalendarDays} from "lucide-react";
+import logoNoctura from "@/assets/images/logo-noctura-escaperoom.webp";
+import logoRectivia from "@/assets/images/logo-rectivia-casefile.webp";
 
 export default function RegistrationPage() {
   const router = useRouter();
@@ -45,35 +47,42 @@ export default function RegistrationPage() {
   };
 
   return (
-    <div className="container mx-auto px-4 py-8 font-sef w-11/12">
-      <h1 className="text-3xl font-bold text-center my-4 font-headline">Event Registration</h1>
-      <p className="text-center mb-8">
-        Choose the event you want to register below. You must complete all the registration steps
+    <div className="container mx-auto px-4 py-8 font-inter w-11/12">
+      <h1 className="text-4xl font-bold text-center my-4 font-headline text-gtd-background">
+        Event Registration
+      </h1>
+      <p className="text-center mb-8 text-gtd-background text-sm">
+        Choose the event you want to register for. You must complete all the registration steps
         within 30 minutes.
       </p>
-      <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
+      <div className="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto">
         <Card
           className={`cursor-pointer flex flex-row items-center p-4 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8] ${
-            selectedEvent === "ESCAPE_ROOM" ? "ring-2 ring-primary" : ""
+            selectedEvent === "ESCAPE_ROOM" ? "ring-2 ring-gtd-primary" : ""
           }`}
           onClick={() => handleEventSelection("ESCAPE_ROOM")}
         >
           <Image
-            className="w-[100px] h-[100px] m-2 bg-gray-300 rounded-lg"
+            className="w-[100px] h-[100px] m-2 bg-white rounded-lg"
             width={100}
             height={100}
             alt="Logo GTD"
-            src={logoGTDBlack}
+            src={logoNoctura}
           ></Image>
           <div>
             <CardHeader className="p-2 px-4">
-              <CardTitle className="font-kaftus text-lg text-gtd-secondary">
-                Escape Room<span className="font-inter font-bold">:</span> Noctura
-              </CardTitle>
+              <CardTitle className="font-kaftus text-xl text-gtd-primary">Escape Room</CardTitle>
             </CardHeader>
             <CardContent className="pb-2 px-4">
-              <p className="text-gray-600">Date: 23 February 2025</p>
-              <p className="text-gray-600">Price: 40 SGD</p>
+              <p className="text-gray-600 text-sm flex items-center gap-2 mb-1">
+                <LucideCalendarDays size={22} />
+                23 February
+              </p>
+              <p className="text-gray-600 text-sm flex items-center gap-2">
+                <LucideCircleDollarSign size={22} />
+                <span className="font-bold text-base">45/</span>
+                <span>5 pax</span>
+              </p>
             </CardContent>
           </div>
         </Card>
@@ -83,38 +92,34 @@ export default function RegistrationPage() {
           onClick={() => handleEventSelection("CASE_FILE")}
         >
           <Image
-            className="w-[100px] h-[100px] m-2 bg-gray-300 rounded-lg"
+            className="w-[100px] h-[100px] m-2 bg-white rounded-lg"
             width={100}
             height={100}
             alt="Logo GTD"
-            src={logoGTDBlack}
+            src={logoRectivia}
           ></Image>
           <div>
             <CardHeader className="p-2 px-4">
-              <CardTitle className="font-kaftus text-lg text-gtd-secondary">
-                Case File<span className="font-inter font-bold">:</span> Rectivia
-              </CardTitle>
+              <CardTitle className="font-kaftus text-xl text-gtd-primary">Case File</CardTitle>
             </CardHeader>
             <CardContent className="pb-2 px-4">
-              <p className="text-gray-600">Date: 1 March 2025</p>
-              <p className="text-gray-600">Price: 50 SGD</p>
+              <p className="text-gray-600 text-sm flex items-center gap-2 mb-1">
+                <LucideCalendarDays size={22} />1 March
+              </p>
+              <p className="text-gray-600 text-sm flex items-center gap-2">
+                <LucideCircleDollarSign size={22} />
+                <span className="font-bold text-base">50/</span>
+                <span>5 pax</span>
+              </p>
             </CardContent>
           </div>
         </Card>
       </div>
-
-      <div className="flex justify-end space-x-4 mt-8">
-        <Button
-          type="button"
-          variant="outline"
-          onClick={() => router.back()}
-          className="h-6 px-6 py-4 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
-        >
-          Back
-        </Button>
+      <div className="flex justify-end space-x-4 mt-8 max-w-3xl mx-auto">
         <Button
           type="submit"
           onClick={handleNext}
+          disabled={!selectedEvent}
           className="h-6 px-6 py-4 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
         >
           Next
