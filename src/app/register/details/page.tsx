@@ -133,12 +133,14 @@ export default function BookingDetailsPage() {
   }
 
   return (
-    <div className="container mx-auto px-4 py-8 font-sef">
-      <h1 className="text-3xl font-bold my-4 text-center font-headline">Booking Details</h1>
-      <div className="w-5/6 mx-auto">
+    <div className="container mx-auto px-4 pb-8 pt-1 font-inter">
+      <div className="w-11/12 md:w-5/6 mx-auto">
         <Card className="max-w-7xl mx-auto mt-8 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
           <CardHeader>
-            <CardTitle className="font-bold text-lg font-kaftus">Fill in your details</CardTitle>
+            <CardTitle className="">
+              <p className="font-bold text-2xl font-headline text-center">Booking Details</p>
+              <p className="text-center text-gtd-primary text-sm">Fill in the details below</p>
+            </CardTitle>
           </CardHeader>
           <CardContent>
             <form onSubmit={handleSubmit(onSubmit)} className="md:flex md:justify-left">
@@ -225,8 +227,8 @@ export default function BookingDetailsPage() {
           <Button
             type="button"
             variant="outline"
-            onClick={() => router.back()}
-            className="h-6 px-6 py-4  rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
+            onClick={() => router.push("/register")}
+            className="h-6 px-6 py-4 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
           >
             Back
           </Button>
