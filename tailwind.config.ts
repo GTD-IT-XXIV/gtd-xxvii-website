@@ -21,7 +21,7 @@ export default {
       },
       colors: {
         gtd: {
-          background: "#EBEBEB",
+          background: "#F9F9F9",
           primary: "#373737",
           secondary: "#FF0089",
         },
