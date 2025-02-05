@@ -4,7 +4,7 @@ import {useEffect, useState} from "react";
 import {useSearchParams, useRouter} from "next/navigation";
 import Link from "next/link";
 import {useBookingStore} from "@/store/useBookingStore";
-import {Card} from "@/components/ui/card";
+import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {getPaymentStatus} from "@/app/actions/booking";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
@@ -61,40 +61,44 @@ export default function PaymentStatusPage() {
   }
 
   return (
-    <div className="min-h-scree py-12">
-      <div className="max-w-2xl mx-auto px-4">
-        <Card className="p-8 text-center">
-          {paymentStatus === "success" && (
-            <>
-              <h1 className="text-3xl font-bold text-green-600 mb-4">Payment Successful!</h1>
-              <p className="text-gray-600 mb-6">{message}</p>
-              <Button asChild>
-                <Link href="/">Return Home</Link>
-              </Button>
-            </>
-          )}
+    <div className="container mx-auto px-4 py-8 font-inter">
+      <div className="w-11/12 md:w-2/3 mx-auto">
+        <Card className="max-w-2xl mx-auto text-center border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
+          <CardHeader>
+            <CardTitle>
+              {paymentStatus === "success" && (
+                <>
+                  <h1 className="text-3xl font-bold text-green-600 mb-4">Payment Successful!</h1>
+                  <p className="text-gray-600 mb-6">{message}</p>
+                  <Button asChild>
+                    <Link href="/">Return Home</Link>
+                  </Button>
+                </>
+              )}
+            </CardTitle>
 
-          {paymentStatus === "processing" && (
-            <>
-              <h1 className="text-3xl font-bold text-blue-600 mb-4">Processing Payment</h1>
-              <p className="text-gray-600 mb-6">{message}</p>
-            </>
-          )}
+            {paymentStatus === "processing" && (
+              <>
+                <h1 className="text-3xl font-bold text-blue-600 mb-4">Processing Payment</h1>
+                <p className="text-gray-600 mb-6">{message}</p>
+              </>
+            )}
 
-          {paymentStatus === "error" && (
-            <>
-              <h1 className="text-3xl font-bold text-red-600 mb-4">Payment Failed</h1>
-              <p className="text-gray-600 mb-6">{message}</p>
-              <div className="space-x-4">
-                <Button variant="outline" asChild>
-                  <Link href="/">Return Home</Link>
-                </Button>
-                <Button asChild>
-                  <Link href="/register">Try Again</Link>
-                </Button>
-              </div>
-            </>
-          )}
+            {paymentStatus === "error" && (
+              <>
+                <h1 className="text-3xl font-bold text-red-600 mb-4">Payment Failed</h1>
+                <p className="text-gray-600 mb-6">{message}</p>
+                <div className="space-x-4">
+                  <Button variant="outline" asChild>
+                    <Link href="/">Return Home</Link>
+                  </Button>
+                  <Button asChild>
+                    <Link href="/register">Try Again</Link>
+                  </Button>
+                </div>
+              </>
+            )}
+          </CardHeader>
         </Card>
       </div>
     </div>
