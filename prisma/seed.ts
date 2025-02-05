@@ -9,17 +9,17 @@ async function main() {
     data: {
       type: EventType.ESCAPE_ROOM,
       price: 45,
-      earlyBirdPrice: 40,
-      earlyBirdCount: 5,
+      earlyBirdPrice: 35,
+      earlyBirdCount: 3,
     },
   });
 
   const caseFile = await prisma.event.create({
     data: {
       type: EventType.CASE_FILE,
-      price: 50,
-      earlyBirdPrice: 45,
-      earlyBirdCount: 5,
+      price: 45,
+      earlyBirdPrice: 35,
+      earlyBirdCount: 1,
     },
   });
 
