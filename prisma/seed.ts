@@ -23,32 +23,57 @@ async function main() {
     },
   });
 
-  // Generate time slots for specific dates
-  const events = [
-    {event: escapeRoom, dates: ["2025-02-22", "2025-02-23"]},
-    {event: caseFile, dates: ["2025-03-01", "2025-03-02"]},
-  ];
+  // Define specific time slots for each event
+  const caseFileSlots = [
+    "09:00",
+    "10:45",
+    "12:30",
+    "14:15",
+    "16:00",
+    "17:45",
+    "19:30",
+    "21:15",
+  ].map((time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const startTime = setMinutes(setHours(new Date("2025-03-01"), hours), minutes);
+    return {
+      eventId: caseFile.id,
+      startTime,
+    };
+  });
 
-  const timeSlots = [];
+  const escapeRoomSlots = [
+    "10:00",
+    "10:50",
+    "11:40",
+    "13:10",
+    "14:00",
+    "14:50",
+    "15:40",
+    "16:30",
+    "17:20",
+    "18:50",
+    "19:40",
+    "20:30",
+    "21:20",
+  ].map((time) => {
+    const [hours, minutes] = time.split(":").map(Number);
+    const startTime = setMinutes(setHours(new Date("2025-02-23"), hours), minutes);
+    return {
+      eventId: escapeRoom.id,
+      startTime,
+    };
+  });
 
-  for (const {event, dates} of events) {
-    for (const dateStr of dates) {
-      // Create slots from 10 AM to 8 PM, every 2 hours
-      for (let hour = 10; hour <= 20; hour += 2) {
-        // Create a date in Singapore time (UTC+8)
-        const startTime = new Date(`${dateStr}T${hour.toString().padStart(2, "0")}:00:00+08:00`);
+  // Combine all time slots
+  const timeSlots = [...caseFileSlots, ...escapeRoomSlots];
 
-        timeSlots.push({
-          eventId: event.id,
-          startTime,
-        });
-      }
-    }
-  }
-
+  // Create time slots in database
   await prisma.timeSlot.createMany({
     data: timeSlots,
   });
+
+  console.log(`Created ${timeSlots.length} time slots`);
 }
 
 main()
