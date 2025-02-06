@@ -1,11 +1,20 @@
 "use client";
+
+import {usePathname} from "next/navigation";
 import Container from "./Container";
 import Image from "next/image";
 import logoGTDBlack from "@/assets/images/logo-gtd-black-transparent.png";
 import Link from "next/link";
+
 const Navbar = () => {
+  const pathname = usePathname(); // Get the current path
+
   return (
-    <div className="sticky top-0 border border-b-primary/10 z-10 bg-gtd-background font-inter">
+    <div
+      className={`w-screen border border-b-primary/10 z-50 bg-gtd-background font-inter ${
+        pathname === "/" ? "fixed top-0" : "sticky top-0"
+      }`}
+    >
       <Container>
         <div className="flex items-center gap-3">
           <Link href="/">
