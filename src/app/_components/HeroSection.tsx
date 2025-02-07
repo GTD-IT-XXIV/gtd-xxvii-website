@@ -15,6 +15,7 @@ import trolls8 from "@/assets/images/trolls/8.webp";
 import trolls9 from "@/assets/images/trolls/9.webp";
 import trolls10 from "@/assets/images/trolls/10.webp";
 import {Button} from "@/components/ui/button";
+import InfiniteScrollTrolls from "./InfiniteScrollTrolls";
 import {useRouter} from "next/navigation";
 
 const animationOrder = {
@@ -199,30 +200,7 @@ const HeroSection = () => {
                 now!
               </p>
             </div>
-            <div className="overflow-hidden relative w-full mt-3 mb-7">
-              <motion.div
-                className="flex items-center w-max"
-                initial={{x: 0}}
-                animate={{x: "-100%"}}
-                transition={{
-                  ease: "linear",
-                  duration: 60,
-                  repeat: Infinity,
-                }}
-              >
-                {/* Duplicate the images for seamless looping */}
-                {[...images, ...images, ...images].map((img, index) => (
-                  <Image
-                    key={index}
-                    src={img.src}
-                    alt={`trolls${index}`}
-                    width={100}
-                    height={100}
-                    className="mx-7 md:mx-12"
-                  />
-                ))}
-              </motion.div>
-            </div>
+            <InfiniteScrollTrolls images={images} />
             <Button
               onClick={() => router.push("/register")}
               className="relative left-1/2 -translate-x-1/2 items-center h-6 px-6 py-5 w-32 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary font-semibold text-lg"
