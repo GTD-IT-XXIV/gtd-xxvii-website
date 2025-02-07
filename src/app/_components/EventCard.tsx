@@ -6,8 +6,11 @@ import escaperoomImage from "@/assets/images/escaperoom-image.webp";
 import casefileImage from "@/assets/images/casefile-image.webp";
 import logoNoctura from "@/assets/images/logo-noctura-escaperoom.webp";
 import logoRectivia from "@/assets/images/logo-rectivia-casefile.webp";
+import {Button} from "./ui/button";
+import {useRouter} from "next/navigation";
 
 const EventCard = () => {
+  const router = useRouter();
   return (
     <>
       <div className="flex flex-col overflow-hidden">
@@ -22,13 +25,13 @@ const EventCard = () => {
               draggable={false}
             />
             <div className="absolute inset-0 bg-black opacity-60"></div>
-            <div className="absolute w-full px-3 md:pl-16 md:pr-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row justify-center md:justify-start items-center gap-8 md:gap-20">
+            <div className="absolute w-full py-3 px-3 md:pl-16 md:pr-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row justify-center md:justify-start items-center gap-4 md:gap-20">
               <div className="grow md:grow-0  text-center space-y-4 max-w-[60vw] md:max-w-[35vw]">
                 <Image src={logoRectivia} alt="Logo Noctura" className="object-cover" />
               </div>
               <div className="grow md:grow-0 text-center space-y-4">
                 <h1 className="text-lg md:text-2xl font-headline">
-                  <div className="text-gtd-background mb-1">Escape Room</div>
+                  <div className="text-gtd-background mb-1">Case File</div>
                   <div className="text-4xl md:text-6xl lg:text-7xl text-amber-100 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
                     Rectivia
                   </div>
@@ -38,6 +41,23 @@ const EventCard = () => {
                     friendships, and ignite your competitive spirit. Each event is crafted to
                     transport you into a thrilling universe where every clue matters and every
                     second counts.
+                  </div>
+                  <div className="flex justify-center space-x-4 mt-3 font-inter">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => window.open("https://www.instagram.com/pintugtd/", "_blank")}
+                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
+                    >
+                      See Trailer
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => router.push("/register")}
+                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
+                    >
+                      Register
+                    </Button>
                   </div>
                 </h1>
               </div>
@@ -57,13 +77,13 @@ const EventCard = () => {
               draggable={false}
             />
             <div className="absolute inset-0 bg-black opacity-60"></div>
-            <div className="absolute w-full px-3 md:pr-16 md:pl-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row-reverse justify-center md:justify-start items-center gap-8 md:gap-20">
+            <div className="absolute w-full py-3 px-3 md:pr-16 md:pl-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row-reverse justify-center md:justify-start items-center gap-4 md:gap-20">
               <div className="grow md:grow-0  text-center space-y-4 max-w-[60vw] md:max-w-[35vw]">
                 <Image src={logoNoctura} alt="Logo Noctura" className="object-cover" />
               </div>
               <div className="grow md:grow-0 text-center space-y-4">
                 <h1 className="text-lg md:text-2xl font-headline">
-                  <div className="text-gtd-background mb-1">Case File</div>
+                  <div className="text-gtd-background mb-1">Escape Room</div>
                   <div className="text-4xl md:text-6xl lg:text-7xl text-amber-100 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
                     Noctura
                   </div>
@@ -73,6 +93,23 @@ const EventCard = () => {
                     friendships, and ignite your competitive spirit. Each event is crafted to
                     transport you into a thrilling universe where every clue matters and every
                     second counts.
+                  </div>
+                  <div className="flex justify-center space-x-4 mt-3 font-inter">
+                    <Button
+                      type="button"
+                      variant="ghost"
+                      onClick={() => window.open("https://www.instagram.com/pintugtd/", "_blank")}
+                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
+                    >
+                      See Trailer
+                    </Button>
+                    <Button
+                      type="button"
+                      onClick={() => router.push("/register")}
+                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
+                    >
+                      Register
+                    </Button>
                   </div>
                 </h1>
               </div>
