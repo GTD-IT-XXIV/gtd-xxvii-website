@@ -14,7 +14,7 @@ const InfiniteScrollTrolls = ({images}: {images: ImageType[]}) => {
   useEffect(() => {
     const updateWidth = () => {
       if (containerRef.current) {
-        const scrollWidth = containerRef.current.scrollWidth / 3;
+        const scrollWidth = containerRef.current.scrollWidth / 2;
         setWidth(scrollWidth);
 
         controls.set({x: 0});
@@ -22,7 +22,7 @@ const InfiniteScrollTrolls = ({images}: {images: ImageType[]}) => {
           x: -scrollWidth,
           transition: {
             ease: "linear",
-            duration: 10,
+            duration: 30,
             repeat: Infinity,
           },
         });
@@ -37,7 +37,7 @@ const InfiniteScrollTrolls = ({images}: {images: ImageType[]}) => {
   return (
     <div className="overflow-hidden w-full mt-3 mb-7">
       <motion.div ref={containerRef} className="flex items-center w-max" animate={controls}>
-        {[...images, ...images, ...images].map((img, index) => (
+        {[...images, ...images].map((img, index) => (
           <Image
             key={index}
             src={img.src}
