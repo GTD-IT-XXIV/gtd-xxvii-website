@@ -165,7 +165,7 @@ const HeroSection = () => {
                   Noctura
                 </div>
                 <div className="text-gtd-background mb-1 font-inter font-normal text-base">
-                  23 Feb & 1 March 2025
+                  23 Feb & 1 Mar 2025
                 </div>
               </h1>
             </div>

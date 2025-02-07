@@ -71,7 +71,9 @@ export default function RegistrationPage() {
           ></Image>
           <div>
             <CardHeader className="p-2 px-4">
-              <CardTitle className="font-kaftus text-xl text-gtd-primary">Escape Room</CardTitle>
+              <CardTitle className="font-inter font-bold text-xl text-gtd-primary">
+                Escape Room
+              </CardTitle>
             </CardHeader>
             <CardContent className="pb-2 px-4">
               <p className="text-gray-600 text-sm flex items-center gap-2 mb-1">
@@ -100,7 +102,9 @@ export default function RegistrationPage() {
           ></Image>
           <div>
             <CardHeader className="p-2 px-4">
-              <CardTitle className="font-kaftus text-xl text-gtd-primary">Case File</CardTitle>
+              <CardTitle className="font-inter font-bold text-xl text-gtd-primary">
+                Case File
+              </CardTitle>
             </CardHeader>
             <CardContent className="pb-2 px-4">
               <p className="text-gray-600 text-sm flex items-center gap-2 mb-1">
