@@ -2,13 +2,15 @@
 
 import HeroSection from "./_components/HeroSection";
 import EventCard from "./_components/EventCard";
-import {ReactLenis} from "lenis/dist/lenis-react.js";
+import {ReactLenis} from "lenis/dist/lenis-react";
 
 export default function Home() {
   return (
-    <div className="">
-      <HeroSection />
-      <EventCard />
-    </div>
+    <ReactLenis root>
+      <div className="">
+        <HeroSection />
+        <EventCard />
+      </div>
+    </ReactLenis>
   );
 }
