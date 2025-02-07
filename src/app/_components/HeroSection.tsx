@@ -225,7 +225,7 @@ const HeroSection = () => {
             </div>
             <Button
               onClick={() => router.push("/register")}
-              className="relative left-1/2 -translate-x-1/2 items-center h-6 px-6 py-4 w-28 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
+              className="relative left-1/2 -translate-x-1/2 items-center h-6 px-6 py-5 w-32 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary font-semibold text-lg"
             >
               Register
             </Button>
