@@ -6,7 +6,7 @@ import Link from "next/link";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {getPaymentStatus} from "@/app/actions/booking";
+import {getPaymentStatus} from "@/server/actions/booking";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function PaymentStatusPage() {
@@ -69,7 +69,7 @@ export default function PaymentStatusPage() {
               {paymentStatus === "success" && (
                 <>
                   <h1 className="text-3xl font-bold text-green-600 mb-4">Payment Successful!</h1>
-                  <p className="text-gray-600 mb-6">{message}</p>
+                  <p className="text-gray-600 font-normal mb-6">{message}</p>
                   <Button asChild>
                     <Link href="/">Return Home</Link>
                   </Button>

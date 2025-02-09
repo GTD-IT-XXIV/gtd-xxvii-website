@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {createBooking} from "@/app/actions/booking";
+import {createBooking} from "@/server/actions/booking";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function SummaryPage() {

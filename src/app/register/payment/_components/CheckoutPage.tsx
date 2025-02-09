@@ -1,7 +1,7 @@
 "use client";
 
 import {useState, useEffect} from "react";
-import {createCheckoutSession} from "@/app/actions/booking";
+import {createCheckoutSession} from "@/server/actions/booking";
 import {EmbeddedCheckoutProvider, EmbeddedCheckout} from "@stripe/react-stripe-js";
 import {loadStripe} from "@stripe/stripe-js";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";

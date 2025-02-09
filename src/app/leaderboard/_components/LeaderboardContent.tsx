@@ -3,7 +3,7 @@ import {EventType} from "@prisma/client";
 import {LeaderboardTable} from "./LeaderboardTable";
 import {LoadingSpinner} from "@/components/LoadingSpinner";
 import {useQuery} from "@tanstack/react-query";
-import {fetchLeaderboard} from "@/app/actions/leaderboard";
+import {fetchLeaderboard} from "@/server/actions/leaderboard";
 
 type TeamData = {
   teamName: string;

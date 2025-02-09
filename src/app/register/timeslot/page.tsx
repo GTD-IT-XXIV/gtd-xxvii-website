@@ -5,7 +5,7 @@ import {useRouter} from "next/navigation";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
-import {getAvailableTimeSlots} from "@/app/actions/booking";
+import {getAvailableTimeSlots} from "@/server/actions/booking";
 import type {TimeSlot} from "@prisma/client";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 

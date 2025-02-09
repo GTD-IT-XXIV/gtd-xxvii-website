@@ -203,7 +203,7 @@ const HeroSection = () => {
             <InfiniteScrollTrolls images={images} />
             <Button
               onClick={() => router.push("/register")}
-              className="relative left-1/2 -translate-x-1/2 items-center h-6 px-6 py-5 w-32 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary font-semibold text-lg"
+              className="relative left-1/2 -translate-x-1/2 items-center h-6 px-6 py-4 md:py-5 w-28 md:w-32 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary font-semibold text-base md:text-lg"
             >
               Register
             </Button>

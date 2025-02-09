@@ -5,7 +5,7 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {Button} from "@/components/ui/button";
 import {EventType} from "@prisma/client";
-import {generateTokens} from "@/app/actions/generate-token";
+import {generateTokens} from "@/server/actions/generate-token";
 import Image from "next/image";
 import {LucideCircleDollarSign, LucideCalendarDays} from "lucide-react";
 import logoNoctura from "@/assets/images/logo-noctura-escaperoom.webp";

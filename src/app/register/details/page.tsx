@@ -8,7 +8,7 @@ import {useBookingStore} from "@/store/useBookingStore";
 import {Button} from "@/components/ui/button";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
 import {useEffect, useState} from "react";
-import {validateTeamName} from "@/app/actions/booking";
+import {validateTeamName} from "@/server/actions/booking";
 import {EventType} from "@prisma/client";
 import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
