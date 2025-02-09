@@ -25,22 +25,21 @@ const EventCard = () => {
               draggable={false}
             />
             <div className="absolute inset-0 bg-black opacity-60"></div>
-            <div className="absolute w-full py-3 px-3 md:pl-16 md:pr-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row justify-center md:justify-start items-center gap-4 md:gap-20">
-              <div className="grow md:grow-0  text-center space-y-4 max-w-[60vw] md:max-w-[35vw]">
+            <div className="absolute w-full py-3 px-3 sm:pl-16 sm:pr-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col sm:flex-row justify-center sm:justify-start items-center gap-4 sm:gap-20">
+              <div className="grow sm:grow-0  text-center space-y-4 max-w-[40vw] sm:max-w-[35vw]">
                 <Image src={logoRectivia} alt="Logo Noctura" className="object-cover" />
               </div>
-              <div className="grow md:grow-0 text-center space-y-4">
-                <h1 className="text-lg md:text-2xl font-headline">
+              <div className="grow sm:grow-0 text-center space-y-4">
+                <h1 className="text-lg sm:text-2xl font-headline">
                   <div className="text-gtd-background mb-1">Case File</div>
-                  <div className="text-4xl md:text-6xl lg:text-7xl text-amber-100 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
+                  <div className="text-4xl sm:text-6xl lg:text-7xl text-amber-100 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
                     Rectivia
                   </div>
-                  <div className="text-gtd-background mb-1 font-inter font-normal  text-xs md:text-sm">
-                    Step into a world where teamwork, mystery, and excitement collide! More than
-                    just a game, this is an experience designed to challenge your wits, strengthen
-                    friendships, and ignite your competitive spirit. Each event is crafted to
-                    transport you into a thrilling universe where every clue matters and every
-                    second counts.
+                  <div className="text-gtd-background mb-1 font-inter font-normal  text-xs sm:text-sm">
+                    After Mahen, the loyal health minister, grows suspicious of the evil Troll
+                    queen, she replaces him with Aldi. Tasked with managing a virus outbreak, Aldi
+                    soon discovers something is off. Recruited by Aldi, you must help uncover the
+                    queen&rsquo;s lies and expose the truth before it&apos;s too late.
                   </div>
                   <div className="flex justify-center space-x-4 mt-3 font-inter">
                     <Button
@@ -77,22 +76,21 @@ const EventCard = () => {
               draggable={false}
             />
             <div className="absolute inset-0 bg-black opacity-60"></div>
-            <div className="absolute w-full py-3 px-3 md:pr-16 md:pl-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col md:flex-row-reverse justify-center md:justify-start items-center gap-4 md:gap-20">
-              <div className="grow md:grow-0  text-center space-y-4 max-w-[60vw] md:max-w-[35vw]">
+            <div className="absolute w-full py-3 px-3 sm:pr-16 sm:pl-10 top-1/2 -translate-y-1/2 z-10 min-h-0 grow flex flex-col sm:flex-row-reverse justify-center sm:justify-start items-center gap-4 sm:gap-20">
+              <div className="grow sm:grow-0  text-center space-y-4 max-w-[40vw] sm:max-w-[35vw]">
                 <Image src={logoNoctura} alt="Logo Noctura" className="object-cover" />
               </div>
-              <div className="grow md:grow-0 text-center space-y-4">
-                <h1 className="text-lg md:text-2xl font-headline">
+              <div className="grow sm:grow-0 text-center space-y-4">
+                <h1 className="text-lg sm:text-2xl font-headline">
                   <div className="text-gtd-background mb-1">Escape Room</div>
-                  <div className="text-4xl md:text-6xl lg:text-7xl text-amber-100 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
+                  <div className="text-4xl sm:text-6xl lg:text-7xl text-red-200 text-shadow-[0_0_4px_var(--tw-shadow-color)] shadow-amber-100 italic tracking-wider">
                     Noctura
                   </div>
-                  <div className="text-gtd-background mb-1 font-inter font-normal  text-xs md:text-sm">
-                    Step into a world where teamwork, mystery, and excitement collide! More than
-                    just a game, this is an experience designed to challenge your wits, strengthen
-                    friendships, and ignite your competitive spirit. Each event is crafted to
-                    transport you into a thrilling universe where every clue matters and every
-                    second counts.
+                  <div className="text-gtd-background mb-1 font-inter font-normal  text-xs sm:text-sm">
+                    The Trolls&rsquo; biggest party of the year is interrupted when the Bergens
+                    crash the celebration and start capturing them for a future feast. A small group
+                    of brave Trolls must race against time to rescue their friends and escape Bergen
+                    town before the guards return.
                   </div>
                   <div className="flex justify-center space-x-4 mt-3 font-inter">
                     <Button

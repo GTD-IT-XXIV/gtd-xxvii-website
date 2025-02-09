@@ -5,7 +5,7 @@ import bgBotRegister from "./_assets/bg-bot-register.webp";
 
 export default function RegisterLayout({children}: {children: React.ReactNode}) {
   return (
-    <div className="min-h-full bg-gtd-background relative">
+    <div className=" min-h-full bg-gtd-background relative">
       <div className="w-full h-[60vh] md:h-[80vh] fixed top-10 left-0 right-0 overflow-hidden ">
         <Image
           src={bgTopRegister}

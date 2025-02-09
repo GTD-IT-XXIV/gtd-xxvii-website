@@ -1,7 +1,7 @@
 "use client";
 
-import HeroSection from "./_components/HeroSection";
-import EventCard from "./_components/EventCard";
+import HeroSection from "@/app/_components/HeroSection";
+import EventCard from "@/app/_components/EventCard";
 import {ReactLenis} from "lenis/dist/lenis-react";
 
 export default function Home() {
