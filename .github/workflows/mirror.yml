@@ -20,13 +20,17 @@ jobs:
           target_repo_url: "git@github.com:devpintugtd/gtd-xxvii-website.git"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
           ssh_username: git
-  redeploy:
+  trigger-vercel:
     needs: mirror
     runs-on: ubuntu-latest
     steps:
-      - name: Trigger Vercel Deployment
+      - name: Deploy to Vercel
         run: |
-          curl -X POST "https://api.vercel.com/v1/integrations/deploy/${{ secrets.VERCEL_PROJECT_ID }}" \
+          curl -X POST "https://api.vercel.com/v1/deployments" \
           -H "Authorization: Bearer ${{ secrets.VERCEL_TOKEN }}" \
           -H "Content-Type: application/json" \
-          -d "{}"
+          -d '{
+            "name": "gtd-xxvii-website",
+            "projectId": "${{ secrets.VERCEL_PROJECT_ID }}",
+            "ref": "main"
+          }'
