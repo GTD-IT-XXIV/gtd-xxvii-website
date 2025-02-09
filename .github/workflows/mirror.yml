@@ -17,5 +17,5 @@ jobs:
       - name: Mirror Repository
         uses: pixta-dev/repository-mirroring-action@v1
         with:
-          target_repo_url: "https://${{ secrets.DESTINATION_GITHUB_TOKEN }}@github.com/devpintugtd/gtd-xxvii-website.git"
-          ssh_private_key: ""
+          target_repo_url: "git@github.com:devpintugtd/gtd-xxvii-website.git"
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
