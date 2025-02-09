@@ -42,18 +42,18 @@ export default function PaymentPage() {
           <CardHeader className="">
             <CardTitle>
               <p className="font-bold text-2xl font-headline text-center">Booking Summary</p>
-              {store.selectedEvent == "CASE_FILE" && store.price == 45 && (
+              {store.selectedEvent == "CASE_FILE" && store.price == 35 && (
+                <p className="text-green-600 text-center text-sm font-normal">
+                  Congratulations you got the early bird discount!
+                </p>
+              )}
+              {store.selectedEvent == "ESCAPE_ROOM" && store.price == 35 && (
                 <p className="text-green-600 text-center text-sm">
                   Congratulations you got the early bird discount!
                 </p>
               )}
-              {store.selectedEvent == "ESCAPE_ROOM" && store.price == 40 && (
-                <p className="text-green-600 text-center text-sm">
-                  Congratulations you got the early bird discount!
-                </p>
-              )}
-              <p className="text-center text-gtd-primary text-sm">
-                Please complete the payment within 30 minutes
+              <p className="text-center text-gtd-primary text-sm font-normal">
+                Please complete the payment immediately.
               </p>
             </CardTitle>
           </CardHeader>
