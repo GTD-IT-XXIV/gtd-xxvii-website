@@ -11,7 +11,7 @@ type TeamData = {
 
 type TeamList = TeamData[];
 
-export const LeaderboardTable = React.memo(({data}: {data: TeamList}) => {
+export const LeaderboardTable = ({data}: {data: TeamList}) => {
   if (!data?.length) return <EmptyState />;
 
   return (
@@ -33,6 +33,4 @@ export const LeaderboardTable = React.memo(({data}: {data: TeamList}) => {
       </table>
     </div>
   );
-});
-
-LeaderboardTable.displayName = "LeaderboardTable";
+};

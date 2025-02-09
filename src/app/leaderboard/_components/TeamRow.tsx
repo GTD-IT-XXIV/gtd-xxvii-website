@@ -8,7 +8,7 @@ type TeamData = {
   members: string[];
 };
 
-export const TeamRow = React.memo(({team, index}: {team: TeamData; index: number}) => (
+export const TeamRow = ({team, index}: {team: TeamData; index: number}) => (
   <tr className="border-b hover:bg-gray-50">
     <td className="p-4 text-center">
       <div className="flex justify-center items-center">
@@ -24,6 +24,4 @@ export const TeamRow = React.memo(({team, index}: {team: TeamData; index: number
       <TeamMembers leader={team.leaderName} members={team.members} />
     </td>
   </tr>
-));
-
-TeamRow.displayName = "TeamRow";
+);
