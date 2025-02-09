@@ -19,3 +19,4 @@ jobs:
         with:
           target_repo_url: "git@github.com:devpintugtd/gtd-xxvii-website.git"
           ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_username: git
