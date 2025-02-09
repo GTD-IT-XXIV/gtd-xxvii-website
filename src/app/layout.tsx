@@ -3,6 +3,7 @@ import {Inter, Lobster} from "next/font/google";
 import "./globals.css";
 import Navbar from "./_components/Navbar";
 import localFont from "next/font/local";
+import Providers from "./providers";
 
 const tangak = localFont({
   src: [
@@ -62,7 +63,10 @@ export default function RootLayout({
       >
         <main className="flex flex-col min-h-screen">
           <Navbar />
-          <section className="min-h-full">{children}</section>
+
+          <section className="min-h-full">
+            <Providers>{children}</Providers>
+          </section>
         </main>
       </body>
     </html>

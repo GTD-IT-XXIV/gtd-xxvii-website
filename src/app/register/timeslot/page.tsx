@@ -1,6 +1,6 @@
 "use client";
 
-import {useEffect, useState} from "react";
+import {useQuery} from "@tanstack/react-query";
 import {useRouter} from "next/navigation";
 import {useBookingStore} from "@/store/useBookingStore";
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card";
@@ -11,70 +11,57 @@ import {LoadingSpinner} from "@/app/_components/LoadingSpinner";
 
 export default function BookingSlotPage() {
   const router = useRouter();
-  const [isHydrated, setIsHydrated] = useState(false);
   const {selectedEvent, selectedTimeSlotId, setSelectedTimeSlot, setStartTime} = useBookingStore();
-  const [timeSlots, setTimeSlots] = useState<TimeSlot[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [selectedSlot, setSelectedSlot] = useState<number | null>(selectedTimeSlotId);
-  useEffect(() => {
-    setIsHydrated(true);
-  }, []);
 
-  useEffect(() => {
-    if (!isHydrated) return;
+  // Use React Query for data fetching
+  const {data: timeSlots = [], isLoading} = useQuery({
+    queryKey: ["timeSlots", selectedEvent],
+    queryFn: () => getAvailableTimeSlots(selectedEvent!),
+    enabled: !!selectedEvent,
+    staleTime: 0,
+    refetchOnWindowFocus: true,
+    refetchInterval: 1000 * 60,
+  });
 
-    if (!selectedEvent) {
-      router.push("/register");
-      return;
-    }
+  // Redirect if no event is selected
+  if (typeof window !== "undefined" && !selectedEvent) {
+    router.push("/register");
+    return null;
+  }
 
-    const fetchTimeSlots = async () => {
-      try {
-        const slots = await getAvailableTimeSlots(selectedEvent);
-        setTimeSlots(slots);
-      } catch (error) {
-        console.error("Error fetching time slots:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+  const formatTime = (date: Date) => {
+    return new Date(date).toLocaleTimeString("en-SG", {
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+      timeZone: "Asia/Singapore",
+    });
+  };
 
-    fetchTimeSlots();
-  }, [isHydrated, selectedEvent, router]);
+  const formatStartTime = (date: Date) => {
+    return new Date(date).toLocaleString("en-SG", {
+      timeZone: "Asia/Singapore",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      hour12: false,
+    });
+  };
 
-  // Sync selected slot with store, it will always reflect the latest selected slot
-  useEffect(() => {
-    if (isHydrated && selectedTimeSlotId) {
-      setSelectedSlot(selectedTimeSlotId);
-    }
-  }, [isHydrated, selectedTimeSlotId]);
-
-  const handleTimeSlotSelection = (slotId: number) => {
-    setSelectedSlot(slotId);
-    setSelectedTimeSlot(slotId);
-    const selectedSlot = timeSlots.find((slot) => slot.id === slotId);
-    if (selectedSlot) {
-      setStartTime(
-        new Date(selectedSlot.startTime).toLocaleString("en-SG", {
-          timeZone: "Asia/Singapore",
-          year: "numeric",
-          month: "short",
-          day: "numeric",
-          hour: "2-digit",
-          minute: "2-digit",
-          hour12: false,
-        }),
-      );
-    }
+  const handleTimeSlotSelection = (slot: TimeSlot) => {
+    setSelectedTimeSlot(slot.id);
+    setStartTime(formatStartTime(slot.startTime));
   };
 
   const handleNext = () => {
-    if (selectedSlot && selectedTimeSlotId) {
+    if (selectedTimeSlotId) {
       router.push("/register/summary");
     }
   };
 
-  if (!isHydrated || loading) {
+  if (isLoading) {
     return <LoadingSpinner />;
   }
 
@@ -83,7 +70,7 @@ export default function BookingSlotPage() {
       <div className="w-11/12 md:w-5/6 mx-auto">
         <Card className="max-w-7xl mx-auto px-2 pb-3 border-transparent shadow-[-3px_4px_10px_0px_#94A3B8]">
           <CardHeader>
-            <CardTitle className="">
+            <CardTitle>
               <p className="font-bold text-2xl font-headline text-center">Select Timeslot</p>
               <p className="text-center text-gtd-primary text-sm">
                 {selectedEvent === "CASE_FILE" ? "1 March 2025" : "23 February 2025"}
@@ -98,14 +85,18 @@ export default function BookingSlotPage() {
                 {timeSlots.map((slot) => (
                   <button
                     key={slot.id}
-                    className={`px-4 py-2 border border-[#64748B] rounded-xl cursor-pointer transition-colors text-center ${
-                      selectedSlot === slot.id
-                        ? "border-primary bg-primary/15"
-                        : "hover:bg-primary/10"
-                    }`}
-                    onClick={() => handleTimeSlotSelection(slot.id)}
+                    onClick={() => handleTimeSlotSelection(slot)}
+                    className={`
+                      px-4 py-2 border border-[#64748B] rounded-xl 
+                      cursor-pointer transition-colors text-center
+                      ${
+                        selectedTimeSlotId === slot.id
+                          ? "border-primary bg-primary/15"
+                          : "hover:bg-primary/10"
+                      }
+                    `}
                   >
-                    <p className="font-normal text-gtd-primary">{`${new Date(slot.startTime).getHours().toString().padStart(2, "0")}:${new Date(slot.startTime).getMinutes().toString().padStart(2, "0")}`}</p>
+                    <p className="font-normal text-gtd-primary">{formatTime(slot.startTime)}</p>
                   </button>
                 ))}
               </div>
@@ -122,7 +113,7 @@ export default function BookingSlotPage() {
           </Button>
           <Button
             onClick={handleNext}
-            disabled={!selectedSlot}
+            disabled={!selectedTimeSlotId}
             className="h-6 px-6 py-4 rounded-lg bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
           >
             Next
