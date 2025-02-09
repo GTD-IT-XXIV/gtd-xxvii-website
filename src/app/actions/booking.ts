@@ -175,6 +175,11 @@ export async function validateTeamName(teamName: string, event: EventType) {
             event: {type: event},
           },
         },
+        {
+          paymentStatus: {
+            not: "cancelled",
+          },
+        },
       ],
     },
     include: {
