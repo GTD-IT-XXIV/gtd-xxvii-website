@@ -1,0 +1,21 @@
+name: Mirror Repository
+
+on:
+  - push
+  - delete
+  - create
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Mirror Repository
+        uses: pixta-dev/repository-mirroring-action@v1
+        with:
+          target_repo_url: "https://${{ secrets.DESTINATION_GITHUB_TOKEN }}@github.com/devpintugtd/repository.git"
+          ssh_private_key: ""
