@@ -155,17 +155,14 @@ export async function POST(req: Request) {
               data: {status: BookingStatus.AVAILABLE},
             });
 
-            // Update booking status
-            await prisma.booking.update({
+            // Delete the booking
+            await prisma.booking.delete({
               where: {
                 stripeSessionId: session.id,
               },
-              data: {
-                paymentStatus: "cancelled",
-              },
             });
 
-            console.log("Successfully reset unpaid expired session");
+            console.log("Successfully deleted unpaid expired session booking");
           }
 
           return NextResponse.json({
