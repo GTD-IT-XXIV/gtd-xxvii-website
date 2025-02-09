@@ -21,6 +21,7 @@ export async function POST(req: Request) {
     switch (event.type) {
       case "checkout.session.completed": {
         const session = event.data.object as Stripe.Checkout.Session;
+
         if (!session.metadata?.bookingId || !session.metadata?.timeSlotId) {
           throw new Error("Missing required metadata");
         }
@@ -33,58 +34,57 @@ export async function POST(req: Request) {
           throw new Error("Invalid booking or timeSlot ID");
         }
 
-        // Get timeslot
-        const timeSlot = await prisma.timeSlot.findUnique({
-          where: {id: timeSlotId},
-          include: {event: true},
-        });
+        // Execute updates within a transaction to maintain consistency
+        const [booking, updatedTimeSlot, eventChosen, isEarlyBird] = await prisma.$transaction(
+          async (tx) => {
+            // Fetch the time slot and associated event
+            const timeSlot = await tx.timeSlot.findUnique({
+              where: {id: timeSlotId},
+              include: {event: true},
+            });
 
-        // Get event
-        if (!timeSlot) {
-          throw new Error("Time slot not found");
-        }
-        const events = await prisma.event.findUnique({
-          where: {id: timeSlot.eventId},
-        });
+            if (!timeSlot) {
+              throw new Error("Time slot not found");
+            }
 
-        // Check if early bird price applies
-        const isEarlyBird = events!.soldCount < events!.earlyBirdCount;
+            const eventChosen = await tx.event.findUnique({
+              where: {id: timeSlot.eventId},
+            });
 
-        // Update booking status
-        const booking = await prisma.booking.update({
-          where: {id: bookingId},
-          data: {
-            paymentStatus: "completed",
-            stripeSessionId: session.id,
-          },
-          include: {
-            timeSlot: {
-              include: {
-                event: true,
+            if (!event) {
+              throw new Error("Event not found");
+            }
+
+            // Update booking payment status
+            const updatedBooking = await tx.booking.update({
+              where: {id: bookingId},
+              data: {
+                paymentStatus: "completed",
+                stripeSessionId: session.id,
               },
-            },
-          },
-        });
+              include: {
+                timeSlot: {
+                  include: {event: true},
+                },
+              },
+            });
 
-        // Update timeslot status
-        await prisma.timeSlot.update({
-          where: {id: timeSlotId},
-          data: {status: BookingStatus.UNAVAILABLE},
-        });
+            // Determine early bird pricing
+            const isEarlyBird = updatedBooking.totalAmount == eventChosen?.earlyBirdPrice;
 
-        // Increment sold teams count
-        await prisma.event.update({
-          where: {id: booking.timeSlot.event.id},
-          data: {
-            soldCount: {
-              increment: 1,
-            },
+            // Update time slot status to UNAVAILABLE
+            const updatedTimeSlot = await tx.timeSlot.update({
+              where: {id: timeSlotId},
+              data: {status: BookingStatus.UNAVAILABLE},
+            });
+
+            return [updatedBooking, updatedTimeSlot, eventChosen, isEarlyBird];
           },
-        });
+        );
 
         // Send confirmation email
         sendConfirmationEmail({
-          eventName: events?.type.toString() as "ESCAPE_ROOM" | "CASE_FILE",
+          eventName: eventChosen?.type.toString() as "ESCAPE_ROOM" | "CASE_FILE",
           bookingId,
           buyerName: booking.buyerName,
           buyerEmail: booking.buyerEmail,
@@ -97,14 +97,15 @@ export async function POST(req: Request) {
         });
 
         // Update Google Sheets
-        if (events && timeSlot && booking) {
-          await addBookingToSheet(booking, timeSlot, events);
+        if (eventChosen) {
+          await addBookingToSheet(booking, updatedTimeSlot, eventChosen);
         } else {
           throw new Error("Event not found");
         }
 
         break;
       }
+
       // This will always be triggered when the session is expired regardless of the payment status
       case "checkout.session.expired": {
         const session = event.data.object as Stripe.Checkout.Session;
@@ -149,17 +150,25 @@ export async function POST(req: Request) {
             booking.paymentStatus !== "completed" &&
             booking.timeSlot.status !== BookingStatus.UNAVAILABLE
           ) {
-            // Reset timeslot status
-            await prisma.timeSlot.update({
-              where: {id: timeSlotId},
-              data: {status: BookingStatus.AVAILABLE},
-            });
+            await prisma.$transaction(async (tx) => {
+              // Reset timeslot status
+              await tx.timeSlot.update({
+                where: {id: timeSlotId},
+                data: {status: BookingStatus.AVAILABLE},
+              });
 
-            // Delete the booking
-            await prisma.booking.delete({
-              where: {
-                stripeSessionId: session.id,
-              },
+              // Delete the booking
+              await tx.booking.delete({
+                where: {stripeSessionId: session.id},
+              });
+
+              // Decrement soldCount safely
+              await tx.event.update({
+                where: {id: booking.timeSlot.eventId},
+                data: {
+                  soldCount: {decrement: 1},
+                },
+              });
             });
 
             console.log("Successfully deleted unpaid expired session booking");

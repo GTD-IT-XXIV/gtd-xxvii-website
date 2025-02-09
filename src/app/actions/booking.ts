@@ -46,7 +46,7 @@ export async function createBooking(data: {
     });
 
     if (!timeSlot || timeSlot.status !== "AVAILABLE") {
-      throw new Error("Time slot is not available");
+      throw new Error("Time slot is not available, please choose another time slot.");
     }
 
     // Check if early bird price applies
@@ -70,6 +70,13 @@ export async function createBooking(data: {
     await tx.timeSlot.update({
       where: {id: data.timeSlotId},
       data: {status: "PENDING"},
+    });
+
+    await tx.event.update({
+      where: {id: timeSlot.event.id},
+      data: {
+        soldCount: {increment: 1}, // Prevents race conditions
+      },
     });
 
     return {booking, price};
