@@ -4,6 +4,16 @@ import {setHours, setMinutes} from "date-fns";
 const prisma = new PrismaClient();
 
 async function main() {
+  // Check if we already have events in the database
+  const existingEvents = await prisma.event.count();
+
+  if (existingEvents > 0) {
+    console.log("Database already contains events. Skipping seed.");
+    return;
+  }
+
+  console.log("No existing events found. Starting seed process...");
+
   // Create events
   const escapeRoom = await prisma.event.create({
     data: {
@@ -73,7 +83,9 @@ async function main() {
     data: timeSlots,
   });
 
-  console.log(`Created ${timeSlots.length} time slots`);
+  console.log(
+    `Seeding completed successfully: Created 2 events and ${timeSlots.length} time slots`,
+  );
 }
 
 main()
