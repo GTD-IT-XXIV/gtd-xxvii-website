@@ -2,7 +2,7 @@ import {NextRequest, NextResponse} from "next/server";
 
 // !! IMPORTANT: Fill in the production domain
 const allowedOrigins = [
-  "", // Production
+  "https://gtd-xxvii-website.vercel.app/", // Production
   "http://localhost:3000", // Local Development
 ];
 
