@@ -49,7 +49,7 @@ async function main() {
     const startTime = setMinutes(setHours(new Date("2025-02-23T00:00:00+08:00"), hours), minutes);
     return {
       eventId: caseFile.id,
-      startTime,
+      startTime: startTime.toISOString(),
     };
   });
 
@@ -72,7 +72,7 @@ async function main() {
     const startTime = setMinutes(setHours(new Date("2025-03-01T00:00:00+08:00"), hours), minutes);
     return {
       eventId: escapeRoom.id,
-      startTime,
+      startTime: startTime.toISOString(),
     };
   });
 

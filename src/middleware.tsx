@@ -3,6 +3,7 @@ import {NextRequest, NextResponse} from "next/server";
 // Allow production, local dev, and Vercel preview domains
 const allowedOrigins = [
   "https://gtd-xxvii-website.vercel.app", // Production
+  "https://www.pintugtd.com", // Production
   "http://localhost:3000", // Local Development
   /\.vercel\.app$/, // Allow any Vercel preview domain
 ];

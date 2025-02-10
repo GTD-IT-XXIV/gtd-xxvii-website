@@ -171,7 +171,7 @@ const HeroSection = () => {
             </div>
           </motion.div>
           <motion.div
-            className="h-95vh md:h-[110vh] w-screen z-10 absolute bottom-0 flex flex-col"
+            className="h-100vh md:h-[105vh] w-screen z-10 absolute bottom-0 flex flex-col"
             style={{y: aboutTransformY}}
           >
             <div className="px-10">
