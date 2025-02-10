@@ -10,13 +10,44 @@ const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2025-01-
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
 export async function POST(req: Request) {
-  console.log("Received webhook event");
-  console.log(req);
-  const body = await req.text();
-  const signature = (await headers()).get("stripe-signature")!;
+  // console.log("Received webhook event");
+  // console.log(req);
+  // const body = await req.text();
+  // const signature = (await headers()).get("stripe-signature")!;
 
   try {
-    const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    const body = await req.text();
+    const headersList = await headers();
+    const signature = headersList.get("stripe-signature");
+
+    if (!signature) {
+      console.error("No stripe signature found");
+      return NextResponse.json({error: "No stripe signature found in headers"}, {status: 400});
+    }
+
+    if (!webhookSecret) {
+      console.error("Missing Stripe webhook secret");
+      return NextResponse.json({error: "Webhook secret is not configured"}, {status: 500});
+    }
+
+    // Verify the event
+    let event: Stripe.Event;
+    try {
+      event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(`Webhook signature verification failed: ${err.message}`);
+      } else {
+        console.error("Webhook signature verification failed");
+      }
+      return NextResponse.json(
+        {
+          error: `Webhook signature verification failed: ${err instanceof Error ? err.message : "Unknown error"}`,
+        },
+        {status: 400},
+      );
+    }
+    // const event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
 
     switch (event.type) {
       case "checkout.session.completed": {
