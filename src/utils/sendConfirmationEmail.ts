@@ -32,7 +32,7 @@ export async function sendConfirmationEmail({
 }: SendEmailParams) {
   try {
     const data = await resend.emails.send({
-      from: "Event Registration <onboarding@resend.dev>",
+      from: "devpintugtd@gmail.com",
       to: buyerEmail,
       subject: `Booking Confirmation - ${eventName.replace("_", " ")}`,
       react: EventConfirmationEmail({

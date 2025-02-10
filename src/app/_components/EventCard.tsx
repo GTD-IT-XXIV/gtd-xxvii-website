@@ -36,10 +36,10 @@ const EventCard = () => {
                     Rectivia
                   </div>
                   <div className="text-gtd-background mb-1 font-inter font-normal  text-xs sm:text-sm">
-                    After Mahen, the loyal health minister, grows suspicious of the evil Troll
-                    queen, she replaces him with Aldi. Tasked with managing a virus outbreak, Aldi
-                    soon discovers something is off. Recruited by Aldi, you must help uncover the
-                    queen&rsquo;s lies and expose the truth before it&apos;s too late.
+                    A deadly virus outbreak threatens the kingdom, and the newly appointed health
+                    minister, Aldi, is appointed by the Queen to contain it. But as you assist him
+                    in the investigation, strange events begin to unfold. Can you uncover the hidden
+                    truth and find the cure before it&apos;s too late?
                   </div>
                   <div className="flex justify-center space-x-4 mt-3 font-inter">
                     <Button
