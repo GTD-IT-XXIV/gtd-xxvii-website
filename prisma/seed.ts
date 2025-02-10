@@ -6,6 +6,7 @@ const prisma = new PrismaClient();
 async function main() {
   // Check if we already have events in the database
   const existingEvents = await prisma.event.count();
+  console.log(`Found ${existingEvents} existing events`);
 
   if (existingEvents > 0) {
     console.log("Database already contains events. Skipping seed.");
