@@ -1,25 +1,32 @@
 import {NextRequest, NextResponse} from "next/server";
 
-// !! IMPORTANT: Fill in the production domain
+// Allow production, local dev, and Vercel preview domains
 const allowedOrigins = [
   "https://gtd-xxvii-website.vercel.app", // Production
   "http://localhost:3000", // Local Development
+  /\.vercel\.app$/, // Allow any Vercel preview domain
 ];
 
 export async function middleware(req: NextRequest): Promise<NextResponse> {
   const origin = req.headers.get("origin");
 
-  // Check if origin is allowed
-  if (origin && !allowedOrigins.includes(origin)) {
-    console.log("origin not allowed");
+  // Allow requests with no origin (e.g., static assets)
+  if (
+    origin &&
+    !allowedOrigins.some((allowed) =>
+      typeof allowed === "string" ? allowed === origin : allowed.test(origin),
+    )
+  ) {
+    console.log(`Blocked request from origin: ${origin}`);
     return new NextResponse("Not allowed", {status: 403});
   }
 
   const response = NextResponse.next();
 
-  // Set CORS headers
-  // !!IMPORTANT: change the origin to your domain
-  response.headers.set("Access-Control-Allow-Origin", origin ? origin : "http://localhost:3000");
+  // Only set CORS if there's an origin
+  if (origin) {
+    response.headers.set("Access-Control-Allow-Origin", origin);
+  }
   response.headers.set("Access-Control-Allow-Methods", "GET, POST");
   response.headers.set(
     "Access-Control-Allow-Headers",
@@ -30,5 +37,5 @@ export async function middleware(req: NextRequest): Promise<NextResponse> {
 }
 
 export const config = {
-  matcher: ["/:path*"], // Specify the path to match
+  matcher: ["/:path*"], // Apply to all routes
 };
