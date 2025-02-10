@@ -46,7 +46,7 @@ async function main() {
     "21:15",
   ].map((time) => {
     const [hours, minutes] = time.split(":").map(Number);
-    const startTime = setMinutes(setHours(new Date("2025-03-01"), hours), minutes);
+    const startTime = setMinutes(setHours(new Date("2025-02-23T00:00:00+08:00"), hours), minutes);
     return {
       eventId: caseFile.id,
       startTime,
@@ -69,7 +69,7 @@ async function main() {
     "21:20",
   ].map((time) => {
     const [hours, minutes] = time.split(":").map(Number);
-    const startTime = setMinutes(setHours(new Date("2025-02-23"), hours), minutes);
+    const startTime = setMinutes(setHours(new Date("2025-03-01T00:00:00+08:00"), hours), minutes);
     return {
       eventId: escapeRoom.id,
       startTime,

@@ -20,9 +20,9 @@ import {useRouter} from "next/navigation";
 
 const animationOrder = {
   initial: 0,
-  animation1: 0.35,
-  finish1: 0.45,
-  animation2: 0.55,
+  animation1: 0.25,
+  finish1: 0.32,
+  animation2: 0.45,
   finish2: 0.75,
   end: 1,
 };
@@ -107,13 +107,13 @@ const HeroSection = () => {
   const aboutTransformY = useTransform(
     scrollYProgress,
     [animationOrder.finish2, animationOrder.end],
-    ["3%", "5%"],
+    ["30%", "0%"],
   );
 
   return (
     <>
       <section ref={targetRef}>
-        <div className="relative h-[400vh]">
+        <div className="relative h-[450vh]">
           <motion.div
             className="top-0 w-screen h-screen overflow-hidden"
             style={{
@@ -171,7 +171,7 @@ const HeroSection = () => {
             </div>
           </motion.div>
           <motion.div
-            className="h-[110vh] w-screen z-10 absolute bottom-0 flex flex-col"
+            className="h-95vh md:h-[110vh] w-screen z-10 absolute bottom-0 flex flex-col"
             style={{y: aboutTransformY}}
           >
             <div className="px-10">

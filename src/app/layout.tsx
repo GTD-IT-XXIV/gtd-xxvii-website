@@ -43,6 +43,9 @@ const lobster = Lobster({
 export const metadata: Metadata = {
   title: "PINTU Get Together Day",
   description: "Annual Indonesian Freshmen Orientation Camp at NTU",
+  icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

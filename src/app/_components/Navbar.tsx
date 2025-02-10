@@ -18,7 +18,7 @@ const Navbar = () => {
     >
       <Container>
         <div className="flex items-center gap-0 text-gtd-primary font-inter text-sm">
-          <Link href="/" className="pr-1 sm:pr-2">
+          <Link href="/" className="pr-2 sm:pr-3">
             <Image
               src={logoGTDBlack}
               alt="Logo PINTU Get Together Day"
@@ -28,21 +28,21 @@ const Navbar = () => {
 
           <Link
             href="/"
-            className="flex items-center gap-1 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
+            className="flex items-center gap-2 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
           >
             <Home size={18} /> Home
           </Link>
 
           <Link
             href="/register"
-            className="flex items-center gap-1 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
+            className="flex items-center gap-2 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
           >
             <FileText size={18} /> Register
           </Link>
 
           <Link
             href="/leaderboard"
-            className="flex items-center gap-1 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
+            className="flex items-center gap-2 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
           >
             <Trophy size={18} /> Leaderboard
           </Link>
