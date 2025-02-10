@@ -20,10 +20,10 @@ import {useRouter} from "next/navigation";
 
 const animationOrder = {
   initial: 0,
-  animation1: 0.25,
-  finish1: 0.32,
-  animation2: 0.45,
-  finish2: 0.75,
+  animation1: 0.35,
+  finish1: 0.4,
+  animation2: 0.5,
+  finish2: 0.65,
   end: 1,
 };
 
@@ -62,14 +62,14 @@ const HeroSection = () => {
   const bgTransformY = useTransform(
     scrollYProgress,
     [animationOrder.animation2, animationOrder.finish2, animationOrder.end],
-    ["0%", "23%", "-105%"],
+    ["0%", "23%", "-120%"],
   );
 
   // Transform for height scaling (cutting from top)
   const bgHeight = useTransform(
     scrollYProgress,
-    [animationOrder.animation2, animationOrder.end],
-    ["100%", "40%"],
+    [animationOrder.animation2, animationOrder.finish2],
+    ["100%", "70%"],
   );
 
   // Transform for width scaling
@@ -107,13 +107,13 @@ const HeroSection = () => {
   const aboutTransformY = useTransform(
     scrollYProgress,
     [animationOrder.finish2, animationOrder.end],
-    ["30%", "0%"],
+    ["0%", "0%"],
   );
 
   return (
     <>
       <section ref={targetRef}>
-        <div className="relative h-[450vh]">
+        <div className="relative h-[300vh]">
           <motion.div
             className="top-0 w-screen h-screen overflow-hidden"
             style={{
@@ -171,7 +171,7 @@ const HeroSection = () => {
             </div>
           </motion.div>
           <motion.div
-            className="h-100vh md:h-[105vh] w-screen z-10 absolute bottom-0 flex flex-col"
+            className="h-100vh md:h-[95vh] w-screen z-10 absolute bottom-0 flex flex-col"
             style={{y: aboutTransformY}}
           >
             <div className="px-10">

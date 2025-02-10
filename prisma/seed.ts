@@ -46,11 +46,8 @@ async function main() {
     "21:15",
   ].map((time) => {
     const [hours, minutes] = time.split(":").map(Number);
-    const startTime = setMinutes(setHours(new Date("2025-02-23T00:00:00+08:00"), hours), minutes);
-    return {
-      eventId: caseFile.id,
-      startTime: startTime.toISOString(),
-    };
+    const startTime = new Date(Date.UTC(2025, 1, 23, hours - 8, minutes)); // 2025-02-23 in SG time
+    return {eventId: caseFile.id, startTime};
   });
 
   const escapeRoomSlots = [
@@ -69,11 +66,8 @@ async function main() {
     "21:20",
   ].map((time) => {
     const [hours, minutes] = time.split(":").map(Number);
-    const startTime = setMinutes(setHours(new Date("2025-03-01T00:00:00+08:00"), hours), minutes);
-    return {
-      eventId: escapeRoom.id,
-      startTime: startTime.toISOString(),
-    };
+    const startTime = new Date(Date.UTC(2025, 2, 1, hours - 8, minutes)); // 2025-03-01 in SG time
+    return {eventId: escapeRoom.id, startTime};
   });
 
   // Combine all time slots

@@ -30,16 +30,16 @@ export default function BookingSlotPage() {
   }
 
   const formatTime = (date: Date) => {
-    return new Date(date).toLocaleTimeString("en-SG", {
+    return new Intl.DateTimeFormat("en-SG", {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
       timeZone: "Asia/Singapore",
-    });
+    }).format(new Date(date));
   };
 
   const formatStartTime = (date: Date) => {
-    return new Date(date).toLocaleString("en-SG", {
+    return new Intl.DateTimeFormat("en-SG", {
       timeZone: "Asia/Singapore",
       year: "numeric",
       month: "short",
@@ -47,7 +47,7 @@ export default function BookingSlotPage() {
       hour: "2-digit",
       minute: "2-digit",
       hour12: false,
-    });
+    }).format(new Date(date));
   };
 
   const handleTimeSlotSelection = (slot: TimeSlot) => {

@@ -225,8 +225,6 @@ export default function BookingDetailsPage() {
         </Card>
         <div className="flex justify-end space-x-4 mt-8">
           <Button
-            type="button"
-            variant="outline"
             onClick={() => router.push("/register")}
             className="h-6 px-6 py-4 rounded-lg bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
           >
