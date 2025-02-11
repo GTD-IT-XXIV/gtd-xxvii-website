@@ -73,7 +73,7 @@ export default function BookingSlotPage() {
             <CardTitle>
               <p className="font-bold text-2xl font-headline text-center">Select Timeslot</p>
               <p className="text-center text-gtd-primary text-sm">
-                {selectedEvent === "CASE_FILE" ? "1 March 2025" : "23 February 2025"}
+                {selectedEvent === "CASE_FILE" ? "23 February 2025" : "1 March 2025"}
               </p>
             </CardTitle>
           </CardHeader>
