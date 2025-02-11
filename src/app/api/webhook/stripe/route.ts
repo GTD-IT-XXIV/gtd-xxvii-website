@@ -9,6 +9,10 @@ import {addBookingToSheet} from "@/utils/googleSheets";
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {apiVersion: "2025-01-27.acacia"});
 const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET!;
 
+function convertToSingaporeTime(date: Date): Date {
+  return new Date(date.getTime() + 8 * 60 * 60 * 1000);
+}
+
 export async function POST(req: Request) {
   // console.log("Received webhook event");
   // console.log(req);
@@ -112,6 +116,7 @@ export async function POST(req: Request) {
             return [updatedBooking, updatedTimeSlot, eventChosen, isEarlyBird];
           },
         );
+        const singaporeTime = convertToSingaporeTime(new Date(booking.timeSlot.startTime));
 
         // Send confirmation email
         sendConfirmationEmail({
@@ -122,7 +127,7 @@ export async function POST(req: Request) {
           buyerTelegram: booking.buyerTelegram,
           teamName: booking.teamName,
           participants: booking.teamMembers.map((member) => ({name: member})),
-          timeSlot: booking.timeSlot.startTime,
+          timeSlot: singaporeTime,
           price: booking.totalAmount,
           isEarlyBird,
         });
