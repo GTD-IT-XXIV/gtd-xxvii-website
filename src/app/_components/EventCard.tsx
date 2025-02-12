@@ -45,9 +45,7 @@ const EventCard = () => {
                     <Button
                       type="button"
                       variant="ghost"
-                      onClick={() =>
-                        window.open("https://www.instagram.com/p/DF7GNv0SPF3/", "_blank")
-                      }
+                      onClick={() => window.open("https://youtu.be/2Bhk9pb88u8", "_blank")}
                       className="h-6 px-6 py-4 rounded-lg  bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
                     >
                       See Trailer
@@ -98,9 +96,7 @@ const EventCard = () => {
                     <Button
                       type="button"
                       variant="ghost"
-                      onClick={() =>
-                        window.open("https://www.instagram.com/p/DF7GelsSsl7/", "_blank")
-                      }
+                      onClick={() => window.open("https://youtu.be/FDZp6T63zus", "_blank")}
                       className="h-6 px-6 py-4 rounded-lg  bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
                     >
                       See Trailer
