@@ -5,7 +5,7 @@ import Container from "./Container";
 import Image from "next/image";
 import logoGTDBlack from "@/assets/images/logo-gtd-black-transparent.png";
 import Link from "next/link";
-import {Home, FileText, Trophy} from "lucide-react"; // Import relevant icons
+import {Home, Trophy} from "lucide-react"; // Import relevant icons
 
 const Navbar = () => {
   const pathname = usePathname(); // Get the current path
@@ -31,13 +31,6 @@ const Navbar = () => {
             className="flex items-center gap-2 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
           >
             <Home size={18} /> Home
-          </Link>
-
-          <Link
-            href="/register"
-            className="flex items-center gap-2 px-1 py-1 sm:px-3 sm:py-1 rounded-md sm:hover:bg-gray-200 transition"
-          >
-            <FileText size={18} /> Register
           </Link>
 
           <Link
