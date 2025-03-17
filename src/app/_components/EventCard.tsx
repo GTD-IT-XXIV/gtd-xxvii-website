@@ -50,13 +50,6 @@ const EventCard = () => {
                     >
                       See Trailer
                     </Button>
-                    <Button
-                      type="button"
-                      onClick={() => router.push("/register")}
-                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
-                    >
-                      Register
-                    </Button>
                   </div>
                 </h1>
               </div>
@@ -100,13 +93,6 @@ const EventCard = () => {
                       className="h-6 px-6 py-4 rounded-lg  bg-gtd-primary hover:opacity-80 hover:bg-gtd-primary hover:text-white text-white"
                     >
                       See Trailer
-                    </Button>
-                    <Button
-                      type="button"
-                      onClick={() => router.push("/register")}
-                      className="h-6 px-6 py-4 rounded-lg  bg-gtd-secondary hover:opacity-80 hover:bg-gtd-secondary"
-                    >
-                      Register
                     </Button>
                   </div>
                 </h1>
